@@ -2,7 +2,7 @@ class Queue:
     def __init__(self):
         self.arr = []
         self.priority = 3
-        self.pos = 9
+        self.pos = 0
 
     def add(self, ele):
         if len(ele) > self.priority:
