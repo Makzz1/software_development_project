@@ -4,7 +4,7 @@ ele = {"order": {'briyani': 10, 'dosa': 5}}
 should be in this format
 """
 
-
+PUSH_LIMIT = 3
 class Queue:
     def __init__(self):
         self.order = []
@@ -15,8 +15,8 @@ class Queue:
     def add(self, ele):
         order_count = ele['order'].values()
         length = sum(order_count)
-        if self.move >= 3:
-            self.pos = len(order_count) - self.move
+        if self.move >= PUSH_LIMIT:
+            self.pos = len(order_count) - PUSH_LIMIT
             self.order.append(ele)
             self.move = 0
         elif length > self.priority and self.move < 3:
