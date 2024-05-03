@@ -1,6 +1,6 @@
 """
 about element:
-ele = {'move': 0, "order": {'briyani': 10, 'dosa': 5}}
+ele = {"order": {'briyani': 10, 'dosa': 5}}
 should be in this format
 """
 
