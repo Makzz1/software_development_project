@@ -3,6 +3,7 @@ import login_page
 
 def create_login_page():
     login = login_page.Login_page()
+    root.destroy()
 
 
 import tkinter.messagebox as messagebox
