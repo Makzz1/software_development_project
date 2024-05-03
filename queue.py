@@ -1,11 +1,13 @@
-'''
+"""
 about element:
 ele = {'move': 0, "order": {'briyani': 10, 'dosa': 5}}
 should be in this format
-'''
+"""
+
+
 class Queue:
     def __init__(self):
-        self.order = [] #
+        self.order = []
         self.priority = 3
         self.pos = 0
         self.move = 0
@@ -32,7 +34,6 @@ class Queue:
             self.pos -= 1
         else:
             print("there is not enough elements")
-
 
     def display(self):
         print(self.order)
