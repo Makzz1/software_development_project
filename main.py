@@ -5,6 +5,7 @@ order = queue.Queue()
 ele = {"order": {'briyani': 10, 'dosa': 5}}
 ele1 = {"order": {'briyani': 1, 'dosa': 5}}
 ele2 = {"order": {'briyani': 19, 'dosa': 5}}
+ele10= {"order": {'briyani': 100, 'dosa': 5}}
 ele3 = {"order": {'briyani': 1, 'dosa': 1}}
 ele4 = {"order": {'briyani': 1, 'dosa': 2}}
 ele5 = {"order": {'briyani': 1, 'dosa': 1}}
@@ -14,6 +15,7 @@ ele7 = {"order": {'briyani': 1, 'dosa': 1}}
 order.add(ele)
 order.add(ele1)
 order.add(ele2)
+order.add(ele10)
 order.add(ele3)
 order.add(ele4)
 order.add(ele5)

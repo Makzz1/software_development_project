@@ -14,19 +14,16 @@ class Queue:
         order_count = ele['order'].values()
         length = sum(order_count)
         if self.move >= 3:
-            self.move = 0
+            self.pos = len(order_count) - self.move
             self.order.append(ele)
-            self.pos += 1
+            self.move = 0
         elif length > self.priority and self.move < 3:
-        # elments are added to the array
+            # elments are added to the array
             self.order.append(ele)
         else:
             self.order.insert(self.pos, ele)
             self.pos += 1
             self.move += 1
-
-
-
 
     def remove(self):
         # elements to be removed
