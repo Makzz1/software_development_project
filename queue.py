@@ -36,4 +36,5 @@ class Queue:
             print("there is not enough elements")
 
     def display(self):
-        print(self.order)
+        for i in self.order:
+            print(i)
