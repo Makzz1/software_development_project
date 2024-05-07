@@ -1,10 +1,13 @@
 from tkinter import*
 import login_page
+import customer_page
 
 def create_login_page():
     login = login_page.Login_page()
     root.destroy()
-
+def create_customer_page():
+    customer = customer_page.Customer_page()
+    root.destroy()
 
 import tkinter.messagebox as messagebox
 root=Tk()
@@ -14,7 +17,7 @@ root.geometry('400x350')
 admin=Button(root, text="ADMIN", height=4, width=20,command=create_login_page)
 admin.grid(row=0, column=0, padx=10, pady=10)
 
-customer=Button(root, text="CUSTOMER", height=4, width=20)
+customer=Button(root, text="CUSTOMER", height=4, width=20,command = create_customer_page)
 customer.grid(row=1, column=0, padx=10, pady=10)
 
 root.columnconfigure(0,weight=1)
