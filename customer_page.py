@@ -10,7 +10,7 @@ class Customer_page:
         self.contact()
         self.address()
         self.login_button()
-        self.root.geometry("500x500")
+        self.root.geometry("820x600")
 
     def welcome(self):
         self.name = self.name_entry.get()
