@@ -1,25 +1,21 @@
-import queue
-order = queue.Queue()
+import csv
+import time
+import msvcrt
 
+def update_csv(filename, data):
+    # Open the CSV file in append mode
+    with open(filename, 'a', newline='') as csvfile:
+        # Lock the file
+        msvcrt.locking(csvfile.fileno(), msvcrt.LK_LOCK, 1)
+        writer = csv.writer(csvfile)
+        writer.writerow(data)
+        # Unlock the file
+        msvcrt.locking(csvfile.fileno(), msvcrt.LK_UNLCK, 1)
 
-ele = {"order": {'briyani': 10, 'dosa': 5}}
-ele1 = {"order": {'briyani': 1, 'dosa': 5}}
-ele2 = {"order": {'briyani': 19, 'dosa': 5}}
-ele10= {"order": {'briyani': 100, 'dosa': 5}}
-ele3 = {"order": {'briyani': 1, 'dosa': 1}}
-ele4 = {"order": {'briyani': 1, 'dosa': 2}}
-ele5 = {"order": {'briyani': 1, 'dosa': 1}}
-ele6 = {"order": {'briyani': 10, 'dosa': 50}}
-ele7 = {"order": {'briyani': 1, 'dosa': 1}}
+# Example usage
+while True:
+    # Update CSV file with new data every second
+    data_to_write = [input("h:")]
+    update_csv("order.csv", data_to_write)
+    time.sleep(1)
 
-order.add(ele)
-order.add(ele1)
-order.add(ele2)
-order.add(ele10)
-order.add(ele3)
-order.add(ele4)
-order.add(ele5)
-order.add(ele6)
-order.add(ele7)
-
-order.display()
