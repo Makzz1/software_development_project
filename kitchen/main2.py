@@ -10,8 +10,7 @@ def read_csv(filename):
     return data
 
 
-
-def detect_csv_changes( filename):
+def detect_csv_changes(filename):
     flag = False
     previous_data = read_csv(filename)
 
@@ -30,5 +29,5 @@ def detect_csv_changes( filename):
 
 
 
-detect_csv_changes('../order.csv')
+detect_csv_changes('../customer_side/order.csv')
 

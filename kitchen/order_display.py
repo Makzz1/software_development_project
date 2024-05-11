@@ -32,7 +32,7 @@ class Order_display:
 
 
     def display(self):
-            self.writing_in_frame('../order.csv')
+            self.writing_in_frame('../customer_side/order.csv')
 
 
     def writing_in_frame(self,filename):

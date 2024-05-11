@@ -1,6 +1,6 @@
 from tkinter import *
 import login_page
-import customer_page
+from customer_side import customer_page
 
 
 def create_login_page():
@@ -13,7 +13,6 @@ def create_customer_page():
     root.destroy()
 
 
-import tkinter.messagebox as messagebox
 root=Tk()
 root.title("WELCOME TO ORDERDINE")
 root.geometry('852x536')
