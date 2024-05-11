@@ -14,12 +14,12 @@ class Customer:
         image_path = 'photo.png'
         try:
             img = PhotoImage(file=image_path)
-            Label(self.root, image=img, bg="white").place(x=50, y=50)
+            Label(self.root, image=img, bg="white").place(x=0, y=0)
         except TclError:
             print("Error: Image file not found or unsupported format.")
 
         self.frame = Frame(self.root, width=350, height=350, bg="white")
-        self.frame.place(x=480, y=200)
+        self.frame.place(x=480, y=180)
 
         heading = Label(self.frame, text="sign in", fg="#57a1f8", bg="white", font=("Microsoft YaHei UI Light", 23, "bold"))
         heading.place(x=100, y=5)
@@ -27,6 +27,7 @@ class Customer:
         self.contact()
         self.email_id()
         self.sign_up()
+        self.root.mainloop()
 
     def name(self):
         def on_enter(e):
@@ -81,3 +82,5 @@ class Customer:
     def sign_up(self):
         sign_up = Button(self.frame, width=6, text="enter", border=0, bg="white", cursor="hand2", fg="#57a1f8")
         sign_up.place(x=150, y=300)
+
+

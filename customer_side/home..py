@@ -4,13 +4,13 @@ from customer_side import customer_page
 
 
 def create_login_page():
-    login = login_page.Admin()
     root.destroy()
+    login = login_page.Admin()
 
 
 def create_customer_page():
-    customer = customer_page.Customer()
     root.destroy()
+    customer = customer_page.Customer()
 
 
 root=Tk()
