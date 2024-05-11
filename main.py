@@ -1,21 +1,29 @@
 import csv
 import time
 import msvcrt
+import queue
+'''DONT CHANGE MAIN
+FOR NOW IT REPRESENT THE ORDER MENU PAGE'''
 
-def update_csv(filename, data):
+queue = queue.Queue()
+
+def update_csv(filename):
     # Open the CSV file in append mode
-    with open(filename, 'a', newline='') as csvfile:
-        # Lock the file
-        msvcrt.locking(csvfile.fileno(), msvcrt.LK_LOCK, 1)
-        writer = csv.writer(csvfile)
-        writer.writerow(data)
-        # Unlock the file
-        msvcrt.locking(csvfile.fileno(), msvcrt.LK_UNLCK, 1)
+    with open(filename, 'w', newline='') as csvfile:
+        for i in queue.order:
+            print(i)
+            writer = csv.writer(csvfile)
+            writer.writerow([list(i['order'].keys()), list(i['order'].values())])
+
+
 
 # Example usage
 while True:
     # Update CSV file with new data every second
-    data_to_write = [input("h:")]
-    update_csv("order.csv", data_to_write)
+    dish = input("dish:") # should be converted into dictionary
+    no_dish = int(input("no of dishes:"))
+    data_to_write = {'order':{dish:no_dish}}
+    queue.add(data_to_write)
+    update_csv("order.csv")
     time.sleep(1)
 

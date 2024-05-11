@@ -1,14 +1,17 @@
 import tkinter as tk
 from tkinter import Entry, Frame, Label, Button, messagebox
+
+IMAGE_PATH = 'photo2.png'
 class Admin:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Hotel Pandian")
         self.root.geometry('925x500')
-        image_path = 'photo.png'
+
         try:
-            img = tk.PhotoImage(file=image_path)
-            tk.Label(self.root, image=img, bg="white").place(x=0, y=0)
+            self.img = tk.PhotoImage(file=IMAGE_PATH)
+            tk.Label(self.root, image=self.img, bg="white").place(x=0, y=0)
+
         except tk.TclError:
             print("Error: Image file not found or unsupported format.")
 
@@ -80,3 +83,5 @@ class Admin:
         sign_up = Button(self.frame, width=6, text="sign up", border=0, bg="white", cursor="hand2", fg="#57a1f8",
                          command=self.signin)
         sign_up.place(x=150, y=200)
+
+
