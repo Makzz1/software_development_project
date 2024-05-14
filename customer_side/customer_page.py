@@ -2,6 +2,7 @@
 from tkinter import *
 from tkinter import messagebox
 
+
 class Customer:
     def __init__(self):
         self.root = Tk()
@@ -10,10 +11,10 @@ class Customer:
         self.root.configure(bg="#fff")
         self.root.resizable(False, False)
 
-        image_path = "photo.png"
+        image_path = 'photo.png'
         try:
-            self.img = PhotoImage(file=image_path)
-            Label(self.root, image=self.img, bg="white").place(x=0, y=0)
+            img = PhotoImage(file=image_path)
+            Label(self.root, image=img, bg="white").place(x=50, y=50)
         except TclError:
             print("Error: Image file not found or unsupported format.")
 
@@ -76,7 +77,7 @@ class Customer:
         self.address.bind("<FocusOut>", on_leave)
 
         Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=250)
-        
+
     def sign_up(self):
         sign_up = Button(self.frame, width=6, text="enter", border=0, bg="white", cursor="hand2", fg="#57a1f8")
         sign_up.place(x=150, y=300)

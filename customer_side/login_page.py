@@ -7,8 +7,8 @@ class Admin:
         self.root.geometry('925x500')
         image_path = 'photo.png'
         try:
-            self.img = tk.PhotoImage(file=image_path)
-            tk.Label(self.root, image=self.img, bg="white").place(x=0, y=0)
+            img = tk.PhotoImage(file=image_path)
+            tk.Label(self.root, image=img, bg="white").place(x=0, y=0)
         except tk.TclError:
             print("Error: Image file not found or unsupported format.")
 
@@ -77,5 +77,6 @@ class Admin:
             messagebox.showerror("Invalid username")
 
     def sign_up(self):
-        sign_up = Button(self.frame, width=6, text="sign up", border=0, bg="white", cursor="hand2", fg="#57a1f8",command=self.signin)
+        sign_up = Button(self.frame, width=6, text="sign up", border=0, bg="white", cursor="hand2", fg="#57a1f8",
+                         command=self.signin)
         sign_up.place(x=150, y=200)
