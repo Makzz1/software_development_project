@@ -1,4 +1,4 @@
-from tkinter import*
+from tkinter import *
 import login_page
 import customer_page
 
