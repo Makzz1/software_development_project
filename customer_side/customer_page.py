@@ -84,3 +84,4 @@ class Customer:
         sign_up.place(x=150, y=300)
 
 
+c = Customer()

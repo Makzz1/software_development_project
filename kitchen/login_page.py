@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import Entry, Frame, Label, Button, messagebox
 
-IMAGE_PATH = 'photo.png'
+IMAGE_PATH = '../customer_side/photo.png'
 class Admin:
     def __init__(self):
         self.root = tk.Tk()
@@ -64,21 +64,17 @@ class Admin:
         password = self.code.get()
         if username == "admin" and password == "1234":
             self.root.destroy()
-            screen = tk.Toplevel()
-            screen.title("app")
-            screen.geometry("925x500+300+200")
-            screen.config(bg="white")
-            tk.Label(screen, text="welcome admin!!!", bg="#fff", font=("calibri(Body)", 50, "bold")).pack(expand=True)
-            screen.mainloop()
+            import way_to_connect_login_order_page
+
 
         elif username != "admin" and password != "1234":
-            messagebox.showerror("Invalid username and password")
+            messagebox.showinfo('error',"Invalid username and password")
 
         elif password != "1234":
-            messagebox.showerror("Invalid password")
+            messagebox.showinfo('error',"Invalid password")
 
         elif username != "admin":
-            messagebox.showerror("Invalid username")
+            messagebox.showinfo('error',"Invalid username")
 
     def sign_up(self):
         sign_up = Button(self.frame, width=6, text="sign up", border=0, bg="white", cursor="hand2", fg="#57a1f8",
@@ -86,3 +82,4 @@ class Admin:
         sign_up.place(x=150, y=200)
 
 
+l = Admin()
