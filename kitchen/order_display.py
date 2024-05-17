@@ -19,10 +19,12 @@ class Order_display:
         self.root.title('Hotel Pandian')
         self.title = Label(self.root, text="ORDER", font=('arial', 32, 'bold'), background='#92efd3')
         self.title.place(x=580, y=20)
+        # resouce frame
         self.resource_frame = Frame(self.root, bg='#c2fae9', height=550, width=450)
         self.resource_frame.place(x=800, y=100)
         self.rice_label = Label(self.resource_frame, text=f'RICE:{RICE} kg', font=('arial', 24, 'italic'), borderwidth=2, bg ='#dbfcf2')
         self.rice_label.place(x=50,y=50)
+
         self.order_frame = Frame(self.root, bg='#c2fae9', height=550, width=700 )
         self.order_frame.place(x=60, y=100)
         self.next_order_button = Button(text='next order',command=self.destroy,width=17,height=2,font=('arial', 10, 'italic'))
