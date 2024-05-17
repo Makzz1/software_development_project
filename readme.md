@@ -3,4 +3,9 @@ after receiving the payment and send a notification to the customer and the hote
 higher priority. The availability of a food item should be updated to the manager and the customer (during ordering). When the order is ready, a notification should be sent to thecustomer for collecting their order.
 
 note:
+
 pleasse dont change the main and main 2
+
+about element:
+ele = {"order": {'briyani': 10, 'dosa': 5}}
+should be in this format
