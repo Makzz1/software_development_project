@@ -1,4 +1,5 @@
 from tkinter import *
+import order_display
 class admin_entry_page:
 
     def __init__(self):
@@ -25,7 +26,7 @@ class admin_entry_page:
         heading = Label(frame, text="Welcome admin", fg="blue", bg="white", font=("Microsoft YaHei UI", 20, "bold"))
         heading.place(x=70, y=10)
 
-        display_menu = Button(frame, text="Display menu", font=("Verdana", 12), bg='white', height=3, width=15)
+        display_menu = Button(frame, text="Display menu", font=("Verdana", 12), bg='white', height=3, width=15, command = self.display_menu)
         display_menu.place(x=100, y=70)
 
         update_menu = Button(frame, text="Update menu", font=("Verdana", 12), bg='white', height=3, width=15)
@@ -39,11 +40,20 @@ class admin_entry_page:
         logout.place(x=800, y=40)
 
         self.root.mainloop()
+
     def order(self):
-        import way_to_connect_login_order_page
+        order_display.Order_display()
+
+
     def logout(self):
         self.root.destroy()
         import login_page
+
+    def display_menu(self):
+        pass
+
+
+
 
 if __name__ == '__main__':
     admin_entry_page()

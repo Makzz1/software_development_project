@@ -1,7 +1,7 @@
 from tkinter import *
 import csv
 
-
+FONT = ('arial', 24, 'italic')
 
 # resource
 RICE = 100
@@ -12,7 +12,11 @@ class Order_display:
 #kitchen_screen
     def __init__(self):
         self.y_pos = 0
-        self.flag =False
+        self.flag = False
+        self.display()
+
+
+    def display(self):
         self.root = Tk()
         self.root.geometry('1300x700')
         self.root.configure(background='#92efd3')
@@ -22,19 +26,17 @@ class Order_display:
         # resouce frame
         self.resource_frame = Frame(self.root, bg='#c2fae9', height=550, width=450)
         self.resource_frame.place(x=800, y=100)
-        self.rice_label = Label(self.resource_frame, text=f'RICE:{RICE} kg', font=('arial', 24, 'italic'), borderwidth=2, bg ='#dbfcf2')
+        self.rice_label = Label(self.resource_frame, text=f'RICE:{RICE} kg', font=FONT, borderwidth=2, bg ='#dbfcf2')
         self.rice_label.place(x=50,y=50)
-
+        # order frame
         self.order_frame = Frame(self.root, bg='#c2fae9', height=550, width=700 )
         self.order_frame.place(x=60, y=100)
-        self.next_order_button = Button(text='next order',command=self.destroy,width=17,height=2,font=('arial', 10, 'italic'))
-        self.next_order_button.place(x=1080,y=655)
-        self.display()
+        self.next_order_button = Button(self.root,text='next order',command=self.read_the_order_csv,width=14,height=2,font=('arial', 10, 'italic'))
+        self.next_order_button.place(x=1000,y=655)
+        self.exit_button = Button(self.root,text='exit',font=('arial', 10, 'italic'),command=self.root.destroy,width=14,height=2)
+        self.exit_button.place(x=1150,y=655)
+        self.writing_in_frame('../customer_side/order.csv')
         self.root.mainloop()
-
-
-    def display(self):
-            self.writing_in_frame('../customer_side/order.csv')
 
 
     def writing_in_frame(self,filename):
@@ -46,8 +48,13 @@ class Order_display:
                 self.order.place(x=10, y=self.y_pos)
                 self.y_pos += 50
 
-    def destroy(self):
+    def read_the_order_csv(self):
         self.root.destroy()
+        self.y_pos = 0
+        self.display()
 
 
-c=Order_display()
+
+
+if __name__ == "__main__":
+    order = Order_display()

@@ -69,18 +69,21 @@ class Customer:
         def on_leave(e):
             name = self.address.get()
             if name == "":
-                self.address.insert(0, "address")
+                self.address.insert(0, "E mail")
 
         self.address = Entry(self.frame, width=25, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
         self.address.place(x=30, y=230)
-        self.address.insert(0, "address")
+        self.address.insert(0, "E-mail")
         self.address.bind("<FocusIn>", on_enter)
         self.address.bind("<FocusOut>", on_leave)
 
         Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=250)
 
     def sign_up(self):
+        #
         sign_up = Button(self.frame, width=6, text="enter", border=0, bg="white", cursor="hand2", fg="#57a1f8")
         sign_up.place(x=150, y=300)
 
 
+if __name__ == '__main__':
+    a = Customer()

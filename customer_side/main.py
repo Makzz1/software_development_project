@@ -1,7 +1,7 @@
 import csv
 import time
-import msvcrt
 import queue
+
 '''DONT CHANGE MAIN
 FOR NOW IT REPRESENT THE ORDER MENU PAGE'''
 

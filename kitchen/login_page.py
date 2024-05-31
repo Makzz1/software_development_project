@@ -2,12 +2,12 @@ import tkinter as tk
 from tkinter import Entry, Frame, Label, Button, messagebox
 import admin_entry_page
 
-IMAGE_PATH = 'photo.png'
+IMAGE_PATH = 'adminpagephoto.png'
 class Admin:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Hotel Pandian")
-        self.root.geometry('952x636')
+        self.root.geometry('1200x790')
         self.root.resizable(False, False)
 
         try:
