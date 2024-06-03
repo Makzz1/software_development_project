@@ -7,7 +7,7 @@ class Admin:
     def __init__(self):
         self.root = tk.Tk()
         self.root.title("Hotel Pandian")
-        self.root.geometry('1200x790')
+        self.root.geometry('952x636')
         self.root.resizable(False, False)
 
         try:
@@ -79,9 +79,9 @@ class Admin:
             messagebox.showinfo('error',"Invalid username")
 
     def sign_up(self):
-        sign_up = Button(self.frame, width=6, text="sign up", border=0, bg="white", cursor="hand2", fg="#57a1f8",
+        sign_up = Button(self.frame, width=10, text="sign up", border=0, bg="white", cursor="hand2", fg="#57a1f8",
                          command=self.signin)
-        sign_up.place(x=150, y=200)
+        sign_up.place(x=150, y=210)
 
 
 l = Admin()
