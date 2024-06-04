@@ -1,6 +1,7 @@
 
 from tkinter import *
 from tkinter import messagebox
+import menu_customer
 
 
 class Customer:
@@ -80,9 +81,12 @@ class Customer:
         Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=250)
 
     def sign_up(self):
-        #
-        sign_up = Button(self.frame, width=6, text="enter", border=0, bg="white", cursor="hand2", fg="#57a1f8")
+        sign_up = Button(self.frame, width=6, text="enter", border=0, bg="white", cursor="hand2", fg="#57a1f8",command=self.enter)
         sign_up.place(x=150, y=300)
+
+    def enter(self):
+        self.root.destroy()
+        menu = menu_customer.Menu()
 
 
 if __name__ == '__main__':
