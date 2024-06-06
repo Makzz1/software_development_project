@@ -13,7 +13,6 @@ class Admin:
         try:
             self.img = tk.PhotoImage(file=IMAGE_PATH)
             tk.Label(self.root, image=self.img, bg="white").place(x=0, y=0)
-
         except tk.TclError:
             print("Error: Image file not found or unsupported format.")
 
