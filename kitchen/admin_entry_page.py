@@ -1,5 +1,6 @@
 from tkinter import *
 import order_display
+import menu_kitchen
 class admin_entry_page:
 
     def __init__(self):
@@ -50,7 +51,7 @@ class admin_entry_page:
         import login_page
 
     def display_menu(self):
-        pass
+        menu = menu_kitchen.Menu()
 
 
 

@@ -10,7 +10,6 @@ WATER = 100
 
 class Order_display:
     def __init__(self):
-        self.y_pos = 0
         self.root = tk.Tk()
         self.root.geometry('1300x700')
         self.root.configure(background='#92efd3')
@@ -43,8 +42,11 @@ class Order_display:
         with open(filename, 'r', newline='') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
-                order = tk.Label(self.order_frame, text=str(f' Order : {row[0]} , Quantity : {row[1]}'), font=('arial', 24, 'italic'), borderwidth=2, bg='#dbfcf2')
-                order.place(x=10, y=self.y_pos)
+                order = ''
+                for i in row:
+                    order += i + " "
+                order_label = tk.Label(self.order_frame, text=str(f'Order : {order}'), font=('arial', 24, 'italic'), borderwidth=2, bg='#dbfcf2')
+                order_label.place(x=10, y=self.y_pos)
                 self.y_pos += 50
 
 
