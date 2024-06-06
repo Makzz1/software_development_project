@@ -27,11 +27,11 @@ class Menu:
         self.canvas.create_text(600,10,anchor=N,text="HOTEL PANDIAN",fill='#250220',font=('georgia', 58, 'italic'))
 
         # button
-        self.breakfast = Button(text="Breakfast", font=FONT, command=self.breakfast_screen)
+        self.breakfast = Button(self.window,text="Breakfast", font=FONT, command=self.breakfast_screen)
         self.breakfast.place(x=300, y=200)
-        self.lunch = Button(text='Lunch', font=FONT, command=self.lunch_screen)
+        self.lunch = Button(self.window,text='Lunch', font=FONT, command=self.lunch_screen)
         self.lunch.place(x=580, y=200)
-        self.dinner = Button(text='Dinner', font=FONT, command=self.dinner_screen)
+        self.dinner = Button(self.window,text='Dinner', font=FONT, command=self.dinner_screen)
         self.dinner.place(x=840, y=200)
 
         self.window.mainloop()

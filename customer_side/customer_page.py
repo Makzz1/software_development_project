@@ -85,8 +85,11 @@ class Customer:
         sign_up.place(x=150, y=300)
 
     def enter(self):
-        self.root.destroy()
-        menu = menu_customer.Menu()
+        if (self.Name.get() != "") or self.address.get() != "" or self.contact_no.get() != "":
+            self.root.destroy()
+            menu = menu_customer.Menu()
+        else:
+            messagebox.showerror(message='please fill all the above boxes')
 
 
 if __name__ == '__main__':
