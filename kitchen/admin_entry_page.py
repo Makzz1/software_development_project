@@ -1,6 +1,5 @@
 from tkinter import *
 import order_display
-import menu_kitchen
 class admin_entry_page:
 
     def __init__(self):
@@ -30,7 +29,7 @@ class admin_entry_page:
         display_menu = Button(frame, text="Display menu", font=("Verdana", 12), bg='white', height=3, width=15, command = self.display_menu)
         display_menu.place(x=100, y=70)
 
-        update_menu = Button(frame, text="Update menu", font=("Verdana", 12), bg='white', height=3, width=15)
+        update_menu = Button(frame, text="Update menu", font=("Verdana", 12), bg='white', height=3, width=15,command=self.update_menu)
         update_menu.place(x=100, y=160)
 
         orders = Button(frame, text="Pending Orders", font=("Verdana", 12), bg='white', height=3, width=15,command=self.order)
@@ -42,17 +41,22 @@ class admin_entry_page:
 
         self.root.mainloop()
 
-    def order(self):
-        order_display.Order_display()
-
-
     def logout(self):
         self.root.destroy()
         import login_page
 
     def display_menu(self):
-        menu = menu_kitchen.Menu()
+        import menu_kitchen
+        self.root.destroy()
+        menu_kitchen.Menu()
+    def update_menu(self):
+        import update_orders
+        self.root.destroy()
+        update_orders.Update()
 
+    def order(self):
+        self.root.destroy()
+        order_display.Order_display()
 
 
 
