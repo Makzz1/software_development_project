@@ -65,15 +65,16 @@ class Menu:
         if self.b == 1:
             self.breakfast_frame = Frame(self.window, height=200, width=200)
             self.breakfast_frame.place(x=80, y=230)
-            self.breakfast = open('D:/pycharm/software_development_project/kitchen/breakfast.csv', 'r')
+            self.breakfast = open('C:/Users/Lakshaya Mohan/PycharmProjects/software_development_project/kitchen/breakfast.csv', 'r')
             self.b_listbox = Listbox(self.breakfast_frame, width=200, height=200, font=('times new roman', 18, 'italic'))
             self.b_listbox.place(x=0, y=0)
             data = self.breakfast.readlines()
 
-            for i in data:
+            for i in data[1:]:
                 j = i.split(',')
-                self.breakfast_data[j[0]] = int(j[1])
-                self.b_listbox.insert(0, f'{j[0]} Price:{j[1]}', )
+                self.breakfast_data[j[0]] = float(j[1])
+                if int(j[2]) > 0:
+                    self.b_listbox.insert(0, f'{j[0]} Price:{j[1]}', )
             print(self.breakfast_data)
 
         else:
@@ -84,15 +85,16 @@ class Menu:
         if self.l == 1:
             self.lunch_frame = Frame(self.window, height=200, width=200)
             self.lunch_frame.place(x=340, y=230)
-            self.lunch = open('D:/pycharm/software_development_project/kitchen/lunch.csv', 'r')
+            self.lunch = open('C:/Users/Lakshaya Mohan/PycharmProjects/software_development_project/kitchen/lunch.csv', 'r')
             self.l_listbox = Listbox(self.lunch_frame, width=200, height=200, font=('times new roman', 18, 'italic'))
             self.l_listbox.place(x=0, y=0)
             data = self.lunch.readlines()
 
-            for i in data:
+            for i in data[1:]:
                 j = i.split(',')
-                self.lunch_data[j[0]] = int(j[1])
-                self.l_listbox.insert(0, f'{j[0]} Price:{j[1]}')
+                self.lunch_data[j[0]] = float(j[1])
+                if int(j[2]) > 0:
+                    self.l_listbox.insert(0, f'{j[0]} Price:{j[1]}')
         else:
             self.lunch_frame.destroy()
 
@@ -101,20 +103,21 @@ class Menu:
         if self.d == 1:
             self.dinner_frame = Frame(self.window, height=200, width=200)
             self.dinner_frame.place(x=600, y=230)
-            self.dinner = open('D:/pycharm/software_development_project/kitchen/dinner.csv', 'r')
+            self.dinner = open('C:/Users/Lakshaya Mohan/PycharmProjects/software_development_project/kitchen/dinner.csv', 'r')
             self.d_listbox = Listbox(self.dinner_frame, height=200, width=200, font=('times new roman', 18, 'italic'))
             self.d_listbox.place(x=0, y=0)
             data = self.dinner.readlines()
-
-            for i in data:
+            for i in data[1:]:
                 j = i.split(',')
-                self.dinner_data[j[0]] = int(j[1])
-                self.d_listbox.insert(0, f'{j[0]} Price:{j[1]}')
+                self.dinner_data[j[0]] = float(j[1])
+                if int(j[2]) > 0:
+                    self.d_listbox.insert(0, f'{j[0]} Price:{j[1]}')
         else:
             self.dinner_frame.destroy()
 
     def add_order(self):
         quantity = int(self.quantity.get())
+
         item, price = None, None
         if hasattr(self, 'b_listbox') and self.b_listbox.curselection():
             item = self.b_listbox.get(ANCHOR).split(' ')[0]
@@ -134,7 +137,7 @@ class Menu:
         selected = self.order_frame_listbox.curselection()
         if selected:
             item = self.order_frame_listbox.get(selected)
-            item_price = int(item.split()[-1])
+            item_price = float(item.split()[-1])
             self.totalprice -= item_price
             self.order_frame_listbox.delete(selected)
 
@@ -142,7 +145,6 @@ class Menu:
         if self.totalprice > 0:
            self.confirm_frame =  Frame(self.window,height=300,width=350,bg='#B9F3E6')
            self.confirm_frame.place(x=450,y=100)
-
            title = Label(self.confirm_frame,text=f'confirm purchase\n {self.totalprice} ?',font=FONT,bg="#B9F3E6")
            title.place(x=70,y=5)
            confirm = Button(self.confirm_frame,text='confirm',height=2,width=12,command=self.confirm)
@@ -173,8 +175,6 @@ class Menu:
                 writer = csv.writer(csvfile)
                 writer.writerow(i['order'].items())
         self.confirm_frame.destroy()
-
-
 
 
 if __name__ == "__main__":
