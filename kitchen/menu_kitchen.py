@@ -33,6 +33,10 @@ class Menu:
         self.lunch.place(x=580, y=200)
         self.dinner = Button(self.window,text='Dinner', font=FONT, command=self.dinner_screen)
         self.dinner.place(x=840, y=200)
+        # exit button
+        self.exit_button = Button(self.window, text='exit', font=('arial', 10, 'italic'), command=self.exit, width=14,
+                                     height=2)
+        self.exit_button.place(x=580, y=515)
 
         self.window.mainloop()
 
@@ -88,6 +92,11 @@ class Menu:
                 d_listbox.insert(0,f'{j[0]} Price:{j[1]}')
         else:
             self.dinner_frame.destroy()
+
+    def exit(self):
+        self.window.destroy()
+        import admin_entry_page
+        admin_entry_page.admin_entry_page()
 
 
 

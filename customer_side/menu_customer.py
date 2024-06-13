@@ -6,7 +6,9 @@ FONT = ('times new roman', 24, 'italic')
 
 
 class Menu:
-    def __init__(self):
+    def __init__(self,list):
+        self.list = list
+        self.data_to_write = None
         self.b = -1
         self.l = -1
         self.d = -1
@@ -22,7 +24,6 @@ class Menu:
         self.window.configure(bg="white")
         self.window.resizable(False, False)
         self.image_path = 'pngtree-simple-summer-drink-menu-promotion-background-picture-image_1034454.jpg'
-
         try:
             self.img = PhotoImage(file=self.image_path)
             Label(self.window, image=self.img, bg="white").place(x=0, y=0)
@@ -65,7 +66,7 @@ class Menu:
         if self.b == 1:
             self.breakfast_frame = Frame(self.window, height=200, width=200)
             self.breakfast_frame.place(x=80, y=230)
-            self.breakfast = open('C:/Users/Lakshaya Mohan/PycharmProjects/software_development_project/kitchen/breakfast.csv', 'r')
+            self.breakfast = open('../kitchen/breakfast.csv', 'r')
             self.b_listbox = Listbox(self.breakfast_frame, width=200, height=200, font=('times new roman', 18, 'italic'))
             self.b_listbox.place(x=0, y=0)
             data = self.breakfast.readlines()
@@ -85,7 +86,7 @@ class Menu:
         if self.l == 1:
             self.lunch_frame = Frame(self.window, height=200, width=200)
             self.lunch_frame.place(x=340, y=230)
-            self.lunch = open('C:/Users/Lakshaya Mohan/PycharmProjects/software_development_project/kitchen/lunch.csv', 'r')
+            self.lunch = open('../kitchen/lunch.csv', 'r')
             self.l_listbox = Listbox(self.lunch_frame, width=200, height=200, font=('times new roman', 18, 'italic'))
             self.l_listbox.place(x=0, y=0)
             data = self.lunch.readlines()
@@ -103,7 +104,7 @@ class Menu:
         if self.d == 1:
             self.dinner_frame = Frame(self.window, height=200, width=200)
             self.dinner_frame.place(x=600, y=230)
-            self.dinner = open('C:/Users/Lakshaya Mohan/PycharmProjects/software_development_project/kitchen/dinner.csv', 'r')
+            self.dinner = open('../kitchen/dinner.csv', 'r')
             self.d_listbox = Listbox(self.dinner_frame, height=200, width=200, font=('times new roman', 18, 'italic'))
             self.d_listbox.place(x=0, y=0)
             data = self.dinner.readlines()
@@ -152,30 +153,37 @@ class Menu:
            back = Button(self.confirm_frame,text='back',height=2,width=12,command=self.back)
            back.place(x=180,y=130)
 
+
     def back(self):
         self.confirm_frame.destroy()
 
-    def confirm(self):
+    def confirm(self): # changes have been made
         self.totalprice = 0
-        data_to_write = {'order':{}}
+        self.data_to_write = {'order':{}}
         while self.order_frame_listbox.get(1):
             data = self.order_frame_listbox.get(1)
             self.order_frame_listbox.delete(1)
             data = data.split('             ')
-            data_to_write['order'][data[0]] = int(data[1])
-        print(data_to_write)
-        self.queue_list.add(data_to_write)
+            self.data_to_write['order'][data[0]] = int(data[1])
+        print(self.data_to_write)
+        self.list.append(self.data_to_write)
+        self.window.destroy()
         self.update_csv("order.csv")
 
     def update_csv(self,filename):
-        # Open the CSV file in append mode
-        with open(filename, 'w', newline='') as csvfile:
-            for i in self.queue_list.order:
-                print(i)
+        for i in self.list:
+            self.queue_list.add(i)
+        temp = self.queue_list.head
+        with open(f"./{filename}",'w',newline='') as csvfile:
+            while temp:
+                data = temp.value
+                temp = temp.next
                 writer = csv.writer(csvfile)
-                writer.writerow(i['order'].items())
-        self.confirm_frame.destroy()
+                writer.writerow(data['order'].items())
+            csvfile.close()
 
 
-if __name__ == "__main__":
-    menu = Menu()
+        import customer_page
+        customer_page = customer_page.Customer(self.list)
+
+

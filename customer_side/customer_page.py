@@ -2,10 +2,11 @@
 from tkinter import *
 from tkinter import messagebox
 import menu_customer
-
+import queue
 
 class Customer:
-    def __init__(self):
+    def __init__(self,list):
+        self.list = list
         self.root = Tk()
         self.root.title("login")
         self.root.geometry("952x636+50+50")
@@ -87,7 +88,7 @@ class Customer:
     def enter(self):
         if (self.Name.get() != "") or self.address.get() != "" or self.contact_no.get() != "":
             self.root.destroy()
-            menu = menu_customer.Menu()
+            menu = menu_customer.Menu(self.list)
         else:
             messagebox.showerror(message='please fill all the above boxes')
 
