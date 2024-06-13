@@ -1,13 +1,17 @@
 from tkinter import *
-import queue
+import our_queue
 import csv
+from datetime import datetime
 
 FONT = ('times new roman', 24, 'italic')
 
 
 class Menu:
-    def __init__(self,list):
+    def __init__(self,list,name,phone,token):
         self.list = list
+        self.name = name
+        self.phone = phone
+        self.token = token
         self.data_to_write = None
         self.b = -1
         self.l = -1
@@ -15,8 +19,13 @@ class Menu:
         self.breakfast_data = {}  # the data of breakfast are stored in this (dict)
         self.lunch_data = {}  # the data of lunch are stored in this (dict)
         self.dinner_data = {}  # the data of dinner are stored in this
+        # time
+        self.curent = datetime.now().time()
+        self.hr = self.curent.hour
+        self.min = self.curent.minute
+
         self.totalprice = 0
-        self.queue_list = queue.Queue()
+        self.queue_list = our_queue.Queue()
         self.window = Tk()
         self.window.title("Pandian Restaurant")
         self.window.minsize(width=300, height=300)
@@ -162,12 +171,13 @@ class Menu:
 
     def confirm(self): # changes have been made
         self.totalprice = 0
-        self.data_to_write = {'order':{}}
+        self.data_to_write = {'order':{},'token':self.token}
         while self.order_frame_listbox.get(1):
             data = self.order_frame_listbox.get(1)
             self.order_frame_listbox.delete(1)
             data = data.split('             ')
             self.data_to_write['order'][data[0]] = int(data[1])
+        self.token += 1
         print(self.data_to_write)
         self.list.append(self.data_to_write)
         self.window.destroy()
@@ -181,13 +191,11 @@ class Menu:
             while temp:
                 data = temp.value
                 temp = temp.next
-                writer = csv.writer(csvfile)
-                writer.writerow(data['order'].items())
+                csvfile.write(f'{list(data['order'].items())} token:{data['token']}\n')
             csvfile.close()
 
 
         import customer_page
-        customer_page = customer_page.Customer(self.list)
+        customer_page = customer_page.Customer(self.list,self.token)
 
-list=[]
-Menu(list)
+
