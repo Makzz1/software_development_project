@@ -1,17 +1,21 @@
 from tkinter import *
 import our_queue
-import csv
 from datetime import datetime
+import csv
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 FONT = ('times new roman', 24, 'italic')
 
 
 class Menu:
-    def __init__(self,list,name,phone,token):
+    def __init__(self,list,name,phone,email,token):
         self.list = list
         self.name = name
         self.phone = phone
         self.token = token
+        self.email = email
         self.data_to_write = None
         self.b = -1
         self.l = -1
@@ -170,8 +174,7 @@ class Menu:
         self.confirm_frame.destroy()
 
     def confirm(self): # changes have been made
-        self.totalprice = 0
-        self.data_to_write = {'order':{},'token':self.token}
+        self.data_to_write = {'order':{},'token':self.token,'name':self.name,'email':self.email}
         while self.order_frame_listbox.get(1):
             data = self.order_frame_listbox.get(1)
             self.order_frame_listbox.delete(1)
@@ -192,10 +195,47 @@ class Menu:
                 data = temp.value
                 temp = temp.next
                 csvfile.write(f'{list(data['order'].items())} token:{data['token']}\n')
-            csvfile.close()
+        csvfile.close()
 
+        print(self.email)
+        self.send_email(self.email)
+        self.totalprice = 0
 
         import customer_page
         customer_page = customer_page.Customer(self.list,self.token)
+
+    def send_email(self,recipient_email):
+        print(recipient_email)
+        sender_email = 'hotelpandianmail@gmail.com'
+        sender_password = "zibfzkbecvxdqmsl"  # Use an app-specific password if you have 2FA enabled
+        subject = "This mail is to inform you that your ordering at Hotel Pandian is confirmed."
+        body = (
+        f''' Hii {self.name},
+This is to inform you that your order has been confirmed.
+The total price would be {self.totalprice}.
+Your order : {self.data_to_write['order']} 
+Hope you enjoy our service 
+Thank you, Do visit us again
+        ''')
+        try:
+            # Set up the MIME
+            message = MIMEMultipart()
+            message['From'] = sender_email
+            message['To'] = recipient_email
+            message['Subject'] = subject
+
+            # Add body to email
+            message.attach(MIMEText(body, 'plain'))
+
+            # Use Gmail's SMTP server
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()  # Secure the connection
+            server.login(sender_email, sender_password)  # Login to the SMTP server
+            text = message.as_string()  # Convert the message to a string
+            server.sendmail(sender_email, recipient_email, text)  # Send the email
+            server.quit()
+            # Close the connection
+        except Exception as e:
+            print(f'Failed to send email. Error: {e}')
 
 

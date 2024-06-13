@@ -78,7 +78,3 @@ class Order_display:
 
 if __name__ == "__main__":
     order = Order_display()
-
-
-
-

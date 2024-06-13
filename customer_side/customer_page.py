@@ -89,13 +89,12 @@ class Customer:
     def enter(self):
         name = self.Name.get()
         phone_no = self.contact_no.get()
-        email = self.contact_no.get()
+        email = self.address.get()
         if (name != "") or phone_no != "" or email != "":
+            print('mail:',email)
             self.root.destroy()
-            menu = menu_customer.Menu(self.list,name,phone_no,self.token)
+            menu = menu_customer.Menu(self.list,name,phone_no,email,self.token)
         else:
             messagebox.showerror(message='please fill all the above boxes')
 
 
-if __name__ == '__main__':
-    a = Customer()
