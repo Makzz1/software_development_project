@@ -72,10 +72,11 @@ class Menu:
             data = self.breakfast.readlines()
 
             for i in data[1:]:
-                j = i.split(',')
-                self.breakfast_data[j[0]] = float(j[1])
-                if int(j[2]) > 0:
-                    self.b_listbox.insert(0, f'{j[0]} Price:{j[1]}', )
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
+                self.breakfast_data[item_name] = float(price)
+                if availability:
+                    self.b_listbox.insert(0, f'{item_name} - {price}', )
             print(self.breakfast_data)
 
         else:
@@ -92,10 +93,11 @@ class Menu:
             data = self.lunch.readlines()
 
             for i in data[1:]:
-                j = i.split(',')
-                self.lunch_data[j[0]] = float(j[1])
-                if int(j[2]) > 0:
-                    self.l_listbox.insert(0, f'{j[0]} Price:{j[1]}')
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
+                self.lunch_data[item_name] = float(price)
+                if availability:
+                    self.l_listbox.insert(0, f'{item_name} - {price}', )
         else:
             self.lunch_frame.destroy()
 
@@ -109,10 +111,11 @@ class Menu:
             self.d_listbox.place(x=0, y=0)
             data = self.dinner.readlines()
             for i in data[1:]:
-                j = i.split(',')
-                self.dinner_data[j[0]] = float(j[1])
-                if int(j[2]) > 0:
-                    self.d_listbox.insert(0, f'{j[0]} Price:{j[1]}')
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
+                self.dinner_data[item_name] = float(price)
+                if availability:
+                    self.d_listbox.insert(0, f'{item_name} - {price}', )
         else:
             self.dinner_frame.destroy()
 
@@ -186,4 +189,5 @@ class Menu:
         import customer_page
         customer_page = customer_page.Customer(self.list)
 
-
+list=[]
+Menu(list)

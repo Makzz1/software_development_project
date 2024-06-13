@@ -33,10 +33,6 @@ class Menu:
         self.lunch.place(x=580, y=200)
         self.dinner = Button(self.window,text='Dinner', font=FONT, command=self.dinner_screen)
         self.dinner.place(x=840, y=200)
-        # exit button
-        self.exit_button = Button(self.window, text='exit', font=('arial', 10, 'italic'), command=self.exit, width=14,
-                                     height=2)
-        self.exit_button.place(x=580, y=515)
 
         self.window.mainloop()
 
@@ -46,17 +42,18 @@ class Menu:
             self.breakfast_frame = Frame(self.window, height=200, width=200)
             self.breakfast_frame.place(x=280, y=300)
             self.breakfast= open('breakfast.csv', 'r')
-            self.b_listbox = Listbox(self.breakfast_frame,width=200,height=200,font=('times new roman', 18, 'italic'))
-            self.b_listbox.place(x=0,y=0)
+            b_listbox = Listbox(self.breakfast_frame,width=200,height=200,font=('times new roman', 18, 'italic'))
+            b_listbox.place(x=0,y=0)
             data = self.breakfast.readlines()
             self.breakfast_data = []   # the data of breakfast are stored in this
-            for i in data:
-                        j = i.split(',')
-                        print(j)
-                        self.breakfast_data.append(j)
-                        self.b_listbox.insert(0,f'{j[0]} Price:{j[1]}',)
+            for i in data[1:]:
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
+                self.breakfast_data.append(j)
+                if availability:
+                    b_listbox.insert(0, f'{item_name} - {price}' )
+                print(self.breakfast_data)
         else:
-
             self.breakfast_frame.destroy()
 
     def lunch_screen(self):
@@ -69,10 +66,13 @@ class Menu:
             l_listbox.place(x=0,y=0)
             data = self.lunch.readlines()
             self.lunch_data = []  # the data of lunch are stored in this
-            for i in data:
-                j = i.split(',')
+            for i in data[1:]:
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
                 self.lunch_data.append(j)
-                l_listbox.insert(0,f'{j[0]} Price:{j[1]}')
+                if availability:
+                    l_listbox.insert(0, f'{item_name} - {price}' )
+                print(self.lunch_data)
         else:
             self.lunch_frame.destroy()
 
@@ -86,24 +86,15 @@ class Menu:
             d_listbox.place(x=0,y=0)
             data = self.dinner.readlines()
             self.dinner_data = []  # the data of dinner are stored in this
-            for i in data:
-                j = i.split(',')
+            for i in data[1:]:
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
                 self.dinner_data.append(j)
-                d_listbox.insert(0,f'{j[0]} Price:{j[1]}')
+                if availability:
+                    d_listbox.insert(0, f'{item_name} - {price}')
+                print(self.dinner_data)
         else:
             self.dinner_frame.destroy()
-
-    def exit(self):
-        self.window.destroy()
-        import admin_entry_page
-        admin_entry_page.admin_entry_page()
-
-
-
-
-
-
-
 
 if __name__ == "__main__":
     menu = Menu()

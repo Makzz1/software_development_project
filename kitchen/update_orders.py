@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import ttk, messagebox
+from tkinter.ttk import Combobox
 import csv
 
 FONT = ('Ailza Bright Demo', 13)
@@ -156,15 +157,16 @@ class Update:
 
         self.item_name_var = StringVar()
         self.price_var = DoubleVar()
-        self.availability_var = IntVar()
+        self.availability_var = StringVar()
         self.category_var = StringVar()
 
         Label(self.add_item_frame, text="Enter the item name:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=50)
         Entry(self.add_item_frame, textvariable=self.item_name_var, width=30,insertwidth= 2).place(x=480,y=50)
         Label(self.add_item_frame, text="Enter the price:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=100)
         Entry(self.add_item_frame, textvariable=self.price_var, width=30,insertwidth=2).place(x=480,y=100)
-        Label(self.add_item_frame, text="Availability of the item:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=150)
-        Entry(self.add_item_frame, textvariable=self.availability_var, width=30,insertwidth=2).place(x=480,y=150)
+        Label(self.add_item_frame, text="Select the availability:", font=('Ailza Bright Demo', 14),bg='#fce8e9').place(x=250, y=150)
+        self.availability_combobox = Combobox(self.add_item_frame, textvariable=self.availability_var,values=['True', 'False'], state='readonly', width=27)
+        self.availability_combobox.place(x=480, y=150)
 
         Label(self.add_item_frame, text="Choose Category:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=200)
         OptionMenu(self.add_item_frame, self.category_var, "Breakfast", "Lunch", "Dinner").place(x=480,y=200)
@@ -288,7 +290,7 @@ class Update:
                 item_name = table.item(selected_item)['values'][0]
                 self.item_name_var = StringVar(value=item_name)
                 self.price_var = DoubleVar()
-                self.availability_var = IntVar()
+                self.availability_var = StringVar()
 
                 #Enable update button after a selection is made
                 self.update_button.config(state='normal')
@@ -308,6 +310,7 @@ class Update:
             Label(self.update_item_frame, image=self.image, bg="white").place(x=0, y=0)
         except TclError:
             print("Error: Image file not found or unsupported format.")
+
         self.hide_all_tables()
         self.menu_frame.destroy()
 
@@ -316,23 +319,25 @@ class Update:
             self.update_item_frame.destroy()
             return
 
-        Label(self.update_item_frame, text="Update menu", font=('Ailza Bright Demo', 20,'underline'),bg='#fce8e9',fg='blue').place(x=350,y=30)
+        Label(self.update_item_frame, text="Update menu", font=('Ailza Bright Demo', 20, 'underline'), bg='#fce8e9', fg='blue').place(x=350, y=30)
         Label(self.update_item_frame, text="Item name:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=100)
-        entry = Entry(self.update_item_frame, textvariable=self.item_name_var, font=('Ailza Bright Demo', 14), bg='#fce8e9')
+        entry = Entry(self.update_item_frame, textvariable=self.item_name_var, font=('Ailza Bright Demo', 14),bg='#fce8e9')
         entry.config(state='readonly')
-        entry.place(x=480,y=100)
-        Label(self.update_item_frame, text="Enter the new price:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=150)
-        Entry(self.update_item_frame, textvariable=self.price_var, width=30,insertwidth=4).place(x=480,y=150)
-        Label(self.update_item_frame, text="Enter the new availability:", font=('Ailza Bright Demo', 14),bg='#fce8e9').place(x=250, y=200)
-        Entry(self.update_item_frame, textvariable=self.availability_var, width=30,insertwidth=4).place(x=480, y=200)
+        entry.place(x=480, y=100)
 
+        Label(self.update_item_frame, text="Enter the new price:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250, y=150)
+        Entry(self.update_item_frame, textvariable=self.price_var, width=30, insertwidth=4).place(x=480, y=150)
+
+        Label(self.update_item_frame, text="Select the new availability:", font=('Ailza Bright Demo', 14),bg='#fce8e9').place(x=250, y=200)
+        self.availability_combobox = Combobox(self.update_item_frame, textvariable=self.availability_var,values=['True', 'False'], state='readonly', width=27)
+        self.availability_combobox.place(x=480, y=200)
 
         def done():
             item_name = self.item_name_var.get()
             price = self.price_var.get()
-            availability = self.availability_var.get()
+            availability = self.availability_var.get() == 'True'  # Convert to boolean
 
-            if item_name and price and availability:
+            if item_name and price and availability is not None:
                 menu_data = []
                 item_found = False
                 try:
@@ -341,7 +346,7 @@ class Update:
                         for row in reader:
                             if row['item_name'] == item_name:
                                 row['price'] = price
-                                row['availability'] = availability
+                                row['availability'] = availability  # Boolean value
                                 item_found = True
                             menu_data.append(row)
                 except FileNotFoundError:
@@ -364,8 +369,7 @@ class Update:
                 messagebox.showwarning("Input Error", "All fields are required")
             self.menu_frame.destroy()
 
-        Button(self.update_item_frame, text="Done", height=2, width=15, fg='white', bg='blue', command=done).place(x=650,y=250)
-
+        Button(self.update_item_frame, text="Done", height=2, width=15, fg='white', bg='blue', command=done).place(x=650, y=250)
 
 if __name__ =='__main__':
     Update()
