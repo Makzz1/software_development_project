@@ -197,6 +197,16 @@ class Menu:
                 csvfile.write(f'{list(data['order'].items())} token:{data['token']}\n')
         csvfile.close()
 
+        temp = self.queue_list.head
+        with open("email.csv",'w',newline='') as csvfile1:
+            writer = csv.writer(csvfile1)
+            while temp:
+                data = temp.value
+                temp = temp.next
+                print(data)
+                writer.writerow([data['email'], data['name']])
+        csvfile1.close()
+
         print(self.email)
         self.send_email(self.email)
         self.totalprice = 0

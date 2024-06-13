@@ -1,5 +1,8 @@
 import tkinter as tk
 import csv
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 FONT = ('arial', 24, 'italic')
 
@@ -57,7 +60,59 @@ class Order_display:
         for i in data:
             f.write((i))
 
+        f = open('../customer_side/email.csv','r',newline='')
+        reader = csv.reader(f)
+        self.data = list(reader)
+
+        if data:
+            self.first_line = self.data[0]
+            self.gmail = self.first_line[0]
+            self.name = self.first_line[1]
+
+            print(self.gmail,self.name)
+            self.data = self.data[1:]
+
+        f.close()
+
+        with open('../customer_side/email.csv', mode='w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(self.data)
+        csvfile.close()
+
+        self.send_email(self.gmail)
         self.display_orders()
+
+    def send_email(self, recipient_email):
+            print(recipient_email)
+            sender_email = 'hotelpandianmail@gmail.com'
+            sender_password = "zibfzkbecvxdqmsl"  # Use an app-specific password if you have 2FA enabled
+            subject = "This mail is to inform you that your ordering at Hotel Pandian is ready."
+            body = (
+f''' Hii {self.name},
+    This is to inform you that your order has been ready.
+    Hope you enjoy our service 
+    Thank you, Do visit us again
+            ''')
+            try:
+                # Set up the MIME
+                message = MIMEMultipart()
+                message['From'] = sender_email
+                message['To'] = recipient_email
+                message['Subject'] = subject
+
+                # Add body to email
+                message.attach(MIMEText(body, 'plain'))
+
+                # Use Gmail's SMTP server
+                server = smtplib.SMTP('smtp.gmail.com', 587)
+                server.starttls()  # Secure the connection
+                server.login(sender_email, sender_password)  # Login to the SMTP server
+                text = message.as_string()  # Convert the message to a string
+                server.sendmail(sender_email, recipient_email, text)  # Send the email
+                server.quit()
+                # Close the connection
+            except Exception as e:
+                print(f'Failed to send email. Error: {e}')
 
     def exit(self):
         self.root.destroy()
