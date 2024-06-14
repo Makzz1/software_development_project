@@ -17,20 +17,20 @@ class Update:
 
         self.canvas = Canvas(self.window, width=952, height=120, background='#DCF6E9')
         self.canvas.pack()
-        self.canvas.create_text(500, 10, anchor=N, text="HOTEL PANDIAN", fill='#250220', font=('georgia', 35, 'italic'))
+        self.canvas.create_text(480, 40, anchor=N, text="HOTEL PANDIAN", fill='#250220', font=('georgia', 35, 'italic'))
 
         self.add_item_button = Button(text="Add Item", font=FONT2, width=15, bg='blue', fg='white', height=2,
                                       command=self.add_item_screen)
-        self.add_item_button.place(x=200, y=150)
+        self.add_item_button.place(x=100, y=150)
         self.delete_item_button = Button(text="Delete Item", font=FONT2, width=15, bg='blue', fg='white', height=2,
                                          command=self.delete_item_screen)
-        self.delete_item_button.place(x=380, y=150)
+        self.delete_item_button.place(x=300, y=150)
         self.update_item_button = Button(text="Update Item", font=FONT2, width=15, bg='blue', fg='white', height=2,
                                          command=self.update_item_screen)
-        self.update_item_button.place(x=560, y=150)
+        self.update_item_button.place(x=500, y=150)
 
         logout = Button(text="Back", font=FONT2, bg='red', fg='white', height=2, width=15, command=self.back)
-        logout.place(x=740, y=150)
+        logout.place(x=700, y=150)
         self.window.mainloop()
 
     def display_buttons(self):

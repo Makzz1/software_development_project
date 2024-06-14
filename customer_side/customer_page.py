@@ -90,7 +90,7 @@ class Customer:
         name = self.Name.get()
         phone_no = self.contact_no.get()
         email = self.address.get()
-        if (name != "") or phone_no != "" or email != "":
+        if name and phone_no and email and name != "Name" and phone_no != "contact_no" and email != "E-mail":
             print('mail:',email)
             self.root.destroy()
             menu = menu_customer.Menu(self.list,name,phone_no,email,self.token)
