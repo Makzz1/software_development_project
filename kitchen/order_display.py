@@ -52,31 +52,33 @@ class Order_display:
         for widget in self.order_frame.winfo_children():
             widget.destroy()
         f = open('../customer_side/order.csv', 'r' , newline='')
-        data = f.readlines()
-        data.pop(0)
+        order_data = f.readlines()
+        order_data.pop(0)
         f.close()
         f = open('../customer_side/order.csv', 'w' , newline='')
-        print(data)
-        for i in data:
+        print(order_data)
+        for i in order_data:
             f.write((i))
+        f.close()
 
         f = open('../customer_side/email.csv','r',newline='')
         reader = csv.reader(f)
-        self.data = list(reader)
+        self.data_email = list(reader)
 
-        if data:
-            self.first_line = self.data[0]
+
+        if self.data_email:
+            self.first_line = self.data_email[0]
             self.gmail = self.first_line[0]
             self.name = self.first_line[1]
 
             print(self.gmail,self.name)
-            self.data = self.data[1:]
+            self.data_email = self.data_email[1:]
 
         f.close()
 
         with open('../customer_side/email.csv', mode='w', newline='') as csvfile:
             writer = csv.writer(csvfile)
-            writer.writerows(self.data)
+            writer.writerows(self.data_email)
         csvfile.close()
 
         self.send_email(self.gmail)
