@@ -12,6 +12,7 @@ FONT = ('times new roman', 24, 'italic')
 class Menu:
     def __init__(self,list,name,phone,email,token):
         self.list = list
+        self.ordered_items = []
         self.name = name
         self.phone = phone
         self.token = token
@@ -146,8 +147,9 @@ class Menu:
             item = self.d_listbox.get(ANCHOR).split(' ')[0]
             price = self.dinner_data[item]
 
-        if item and price:
+        if item and price and quantity != 0:
             self.order_frame_listbox.insert(END, f'{item}             {quantity}             {price * quantity}')
+            self.ordered_items.append(f'{item}-{quantity} : {price*quantity}')
             self.totalprice += price * quantity
 
     def remove_order(self):
@@ -159,15 +161,26 @@ class Menu:
             self.order_frame_listbox.delete(selected)
 
     def place_order(self):
+        y=150
         if self.totalprice > 0:
-           self.confirm_frame =  Frame(self.window,height=300,width=350,bg='#B9F3E6')
-           self.confirm_frame.place(x=450,y=100)
-           title = Label(self.confirm_frame,text=f'confirm purchase\n {self.totalprice} ?',font=FONT,bg="#B9F3E6")
-           title.place(x=70,y=5)
+           self.confirm_frame =  Frame(self.window,height=500,width=450,bg='white',borderwidth=2, relief="solid")
+           self.confirm_frame.place(x=400,y=30)
+           title1 = Label(self.confirm_frame,text=f'CONFIRM ORDER',font=FONT,bg="white")
+           title1.place(x=90,y=30)
+           title2 = Label(self.confirm_frame,text= ' Your Order : ',font=FONT,bg="white")
+           title2.place(x=20,y=100)
+           for order in self.ordered_items:
+                items = Label(self.confirm_frame,text=f'{order}',font=FONT,bg="white")
+                items.place(x=60,y=y)
+                y += 50
+           line = Label(self.confirm_frame,text=f'-----------------------------------',font=FONT,bg='white')
+           line.place(x=20,y=y)
+           price = Label(self.confirm_frame,text=f'Total : {self.totalprice}',font=FONT,bg='white')
+           price.place(x=60,y=y+40)
            confirm = Button(self.confirm_frame,text='confirm',height=2,width=12,command=self.confirm)
-           confirm.place(x=80,y=130)
+           confirm.place(x=120,y=430)
            back = Button(self.confirm_frame,text='back',height=2,width=12,command=self.back)
-           back.place(x=180,y=130)
+           back.place(x=220,y=430)
 
 
     def back(self):
@@ -208,6 +221,7 @@ class Menu:
         csvfile1.close()
 
         print(self.email)
+
         self.send_email(self.email)
         self.totalprice = 0
 
@@ -249,3 +263,6 @@ Thank you, Do visit us again
             print(f'Failed to send email. Error: {e}')
 
 
+if __name__ == '__main__':
+     list = []
+     m = Menu(list,'maghizh','1','maghizhvanban@gmail.com',1)

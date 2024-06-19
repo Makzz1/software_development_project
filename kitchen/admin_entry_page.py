@@ -17,27 +17,27 @@ class admin_entry_page:
         except TclError:
             print("Error: Image file not found or unsupported format.")
 
-        heading_label = Label(self.root, text="Hotel Pandian", font=("Verdana", 30))
-        heading_label.pack(pady=50)
+        #heading_label = Label(self.root, text="Hotel Pandian", font=("Verdana", 30))
+        #heading_label.pack(pady=50)
 
-        frame = Frame(self.root, width=350, height=350, bg="white")
-        frame.place(x=300, y=180)
+        frame = Frame(self.root, width=400, height=450, bg="#F3E2C1",bd=2, relief=SOLID)
+        frame.place(x=280, y=100)
 
-        heading = Label(frame, text="Welcome admin", fg="blue", bg="white", font=("Microsoft YaHei UI", 20, "bold"))
-        heading.place(x=70, y=10)
+        heading = Label(frame, text="Welcome admin", fg="black", bg="#F3E2C1", font=("Microsoft YaHei UI", 20, "bold"))
+        heading.place(x=90, y=20)
 
         display_menu = Button(frame, text="Display menu", font=("Verdana", 12), bg='white', height=3, width=15, command = self.display_menu)
-        display_menu.place(x=100, y=70)
+        display_menu.place(x=120, y=100)
 
         update_menu = Button(frame, text="Update menu", font=("Verdana", 12), bg='white', height=3, width=15,command=self.update_menu)
-        update_menu.place(x=100, y=160)
+        update_menu.place(x=120, y=200)
 
         orders = Button(frame, text="Pending Orders", font=("Verdana", 12), bg='white', height=3, width=15,command=self.order)
-        orders.place(x=100, y=250)
+        orders.place(x=120, y=300)
 
-        logout = Button(self.root, text="Logout", font=("Verdana", 12, 'bold'), bg='red', fg='white', height=2,
+        logout = Button(self.root, text="Logout", font=("Verdana", 12, 'bold'), bg='#C33718', fg='white', height=2,
                         width=10, command=self.logout)
-        logout.place(x=800, y=40)
+        logout.place(x=780, y=550)
 
         self.root.mainloop()
 

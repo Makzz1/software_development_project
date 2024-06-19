@@ -8,6 +8,9 @@ class Menu:
         self.b = -1
         self.l = -1
         self.d = -1
+        self.breakfast_data = {}  # the data of breakfast are stored in this (dict)
+        self.lunch_data = {}  # the data of lunch are stored in this (dict)
+        self.dinner_data = {}  # the data of dinner are stored in this
         self.window = Tk()
         self.window.title("Pandian Restaurant")
         self.window.minsize(width=300, height=300)
@@ -44,52 +47,57 @@ class Menu:
         self.b *= -1
         if self.b == 1:
             self.breakfast_frame = Frame(self.window, height=200, width=200)
-            self.breakfast_frame.place(x=280, y=300)
-            self.breakfast= open('breakfast.csv', 'r')
-            self.b_listbox = Listbox(self.breakfast_frame,width=200,height=200,font=('times new roman', 18, 'italic'))
-            self.b_listbox.place(x=0,y=0)
+            self.breakfast_frame.place(x=270, y=280)
+            self.breakfast = open('breakfast.csv', 'r')
+            self.b_listbox = Listbox(self.breakfast_frame, width=200, height=200,
+                                     font=('times new roman', 18, 'italic'))
+            self.b_listbox.place(x=0, y=0)
             data = self.breakfast.readlines()
-            self.breakfast_data = []   # the data of breakfast are stored in this
-            for i in data[1:]:
-                        j = i.split(',')
-                        print(j)
-                        self.breakfast_data.append(j)
-                        self.b_listbox.insert(0,f'{j[0]} Price:{j[1]}',)
-        else:
 
+            for i in data[1:]:
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
+                self.breakfast_data[item_name] = float(price)
+                if availability:
+                    self.b_listbox.insert(0, f'{item_name} - {price}', )
+            print(self.breakfast_data)
+
+        else:
             self.breakfast_frame.destroy()
 
     def lunch_screen(self):
         self.l *= -1
         if self.l == 1:
             self.lunch_frame = Frame(self.window, height=200, width=200)
-            self.lunch_frame.place(x=540, y=300)
+            self.lunch_frame.place(x=550, y=280)
             self.lunch = open('lunch.csv', 'r')
-            l_listbox = Listbox(self.lunch_frame,width=200,height=200,font=('times new roman', 18, 'italic'))
-            l_listbox.place(x=0,y=0)
+            self.l_listbox = Listbox(self.lunch_frame, width=200, height=200, font=('times new roman', 18, 'italic'))
+            self.l_listbox.place(x=0, y=0)
             data = self.lunch.readlines()
-            self.lunch_data = []  # the data of lunch are stored in this
+
             for i in data[1:]:
-                j = i.split(',')
-                self.lunch_data.append(j)
-                l_listbox.insert(0,f'{j[0]} Price:{j[1]}')
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
+                self.lunch_data[item_name] = float(price)
+                if availability:
+                    self.l_listbox.insert(0, f'{item_name} - {price}', )
         else:
             self.lunch_frame.destroy()
-
     def dinner_screen(self):
         self.d *= -1
         if self.d == 1:
             self.dinner_frame = Frame(self.window, height=200, width=200)
-            self.dinner_frame.place(x=800, y=300)
+            self.dinner_frame.place(x=810, y=280)
             self.dinner = open('dinner.csv', 'r')
-            d_listbox = Listbox(self.dinner_frame,height=200,width=200,font=('times new roman', 18, 'italic'))
-            d_listbox.place(x=0,y=0)
+            self.d_listbox = Listbox(self.dinner_frame, height=200, width=200, font=('times new roman', 18, 'italic'))
+            self.d_listbox.place(x=0, y=0)
             data = self.dinner.readlines()
-            self.dinner_data = []  # the data of dinner are stored in this
             for i in data[1:]:
-                j = i.split(',')
-                self.dinner_data.append(j)
-                d_listbox.insert(0,f'{j[0]} Price:{j[1]}')
+                j = i.strip().split(',')
+                item_name, price, availability = j[0], j[1], j[2] == 'True'
+                self.dinner_data[item_name] = float(price)
+                if availability:
+                    self.d_listbox.insert(0, f'{item_name} - {price}', )
         else:
             self.dinner_frame.destroy()
 
