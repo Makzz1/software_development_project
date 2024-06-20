@@ -1,6 +1,7 @@
 from tkinter import *
 import our_queue
 from datetime import datetime
+import payment_page
 import csv
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -12,7 +13,7 @@ FONT = ('times new roman', 24, 'italic')
 class Menu:
     def __init__(self,list,name,phone,email,token):
         self.list = list
-        self.ordered_items = []
+        self.ordered_items = {}
         self.name = name
         self.phone = phone
         self.token = token
@@ -149,27 +150,30 @@ class Menu:
 
         if item and price and quantity != 0:
             self.order_frame_listbox.insert(END, f'{item}             {quantity}             {price * quantity}')
-            self.ordered_items.append(f'{item}-{quantity} : {price*quantity}')
+            self.ordered_items[item] = f'{item}-{quantity} : {price*quantity}'
             self.totalprice += price * quantity
+            print(self.ordered_items)
 
     def remove_order(self):
         selected = self.order_frame_listbox.curselection()
         if selected:
             item = self.order_frame_listbox.get(selected)
+            order = item.split('             ')[0]
+            del self.ordered_items[order]
             item_price = float(item.split()[-1])
             self.totalprice -= item_price
             self.order_frame_listbox.delete(selected)
 
     def place_order(self):
-        y=150
+        y=160
         if self.totalprice > 0:
            self.confirm_frame =  Frame(self.window,height=500,width=450,bg='white',borderwidth=2, relief="solid")
            self.confirm_frame.place(x=400,y=30)
            title1 = Label(self.confirm_frame,text=f'CONFIRM ORDER',font=FONT,bg="white")
-           title1.place(x=90,y=30)
+           title1.place(x=90,y=20)
            title2 = Label(self.confirm_frame,text= ' Your Order : ',font=FONT,bg="white")
-           title2.place(x=20,y=100)
-           for order in self.ordered_items:
+           title2.place(x=20,y=110)
+           for order in self.ordered_items.values():
                 items = Label(self.confirm_frame,text=f'{order}',font=FONT,bg="white")
                 items.place(x=60,y=y)
                 y += 50
@@ -181,12 +185,14 @@ class Menu:
            confirm.place(x=120,y=430)
            back = Button(self.confirm_frame,text='back',height=2,width=12,command=self.back)
            back.place(x=220,y=430)
+           time_order = Label(self.confirm_frame,text=f'Time of the order {self.hr}:{self.min}',font=('times new roman', 12, 'italic'),bg='white')
+           time_order.place(x=30,y=70)
 
 
     def back(self):
         self.confirm_frame.destroy()
 
-    def confirm(self): # changes have been made
+    def confirm(self):
         self.data_to_write = {'order':{},'token':self.token,'name':self.name,'email':self.email}
         while self.order_frame_listbox.get(1):
             data = self.order_frame_listbox.get(1)
