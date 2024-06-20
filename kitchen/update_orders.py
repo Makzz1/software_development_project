@@ -42,7 +42,7 @@ class Update:
         self.menu_frame.place(x=50, y=250)
 
         try:
-            self.image = PhotoImage(file='img.png')
+            self.image = PhotoImage(file='wave.png')
             Label(self.menu_frame, image=self.image, bg="white").place(x=0, y=0)
         except TclError:
             print("Error: Image file not found or unsupported format.")
@@ -90,11 +90,11 @@ class Update:
 
     def hide_all_tables(self):
         if hasattr(self, 'breakfast_table') and self.breakfast_table.winfo_exists():
-            self.breakfast_table.place_forget()
+            self.breakfast_table.destroy()
         if hasattr(self, 'lunch_table') and self.lunch_table.winfo_exists():
-            self.lunch_table.place_forget()
+            self.lunch_table.destroy()
         if hasattr(self, 'dinner_table') and self.dinner_table.winfo_exists():
-            self.dinner_table.place_forget()
+            self.dinner_table.destroy()
 
         if hasattr(self, 'add_item_frame') and self.add_item_frame.winfo_exists():
             self.add_item_frame.destroy()
@@ -146,11 +146,11 @@ class Update:
         if hasattr(self, 'update_item_frame') and self.update_item_frame.winfo_exists():
             self.update_item_frame.destroy()
 
-        self.add_item_frame = Frame(self.window, height=350, width=850, background='#fce8e9')
+        self.add_item_frame = Frame(self.window, height=350, width=850, background='#c1e8f7')
         self.add_item_frame.place(x=50, y=250)
 
         try:
-            self.image = PhotoImage(file='img.png')
+            self.image = PhotoImage(file='wave.png')
             Label(self.add_item_frame, image=self.image, bg="white").place(x=0, y=0)
         except TclError:
             print("Error: Image file not found or unsupported format.")
@@ -160,15 +160,15 @@ class Update:
         self.availability_var = StringVar()
         self.category_var = StringVar()
 
-        Label(self.add_item_frame, text="Enter the item name:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=50)
+        Label(self.add_item_frame, text="Enter the item name:", font=('Ailza Bright Demo', 14), bg='#c1e8f7').place(x=250,y=50)
         Entry(self.add_item_frame, textvariable=self.item_name_var, width=30,insertwidth= 2).place(x=480,y=50)
-        Label(self.add_item_frame, text="Enter the price:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=100)
+        Label(self.add_item_frame, text="Enter the price:", font=('Ailza Bright Demo', 14), bg='#c1e8f7').place(x=250,y=100)
         Entry(self.add_item_frame, textvariable=self.price_var, width=30,insertwidth=2).place(x=480,y=100)
-        Label(self.add_item_frame, text="Select the availability:", font=('Ailza Bright Demo', 14),bg='#fce8e9').place(x=250, y=150)
+        Label(self.add_item_frame, text="Select the availability:", font=('Ailza Bright Demo', 14),bg='#c1e8f7').place(x=250, y=150)
         self.availability_combobox = Combobox(self.add_item_frame, textvariable=self.availability_var,values=['True', 'False'], state='readonly', width=27)
         self.availability_combobox.place(x=480, y=150)
 
-        Label(self.add_item_frame, text="Choose Category:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=200)
+        Label(self.add_item_frame, text="Choose Category:", font=('Ailza Bright Demo', 14), bg='#c1e8f7').place(x=250,y=200)
         OptionMenu(self.add_item_frame, self.category_var, "Breakfast", "Lunch", "Dinner").place(x=480,y=200)
 
 
@@ -199,34 +199,38 @@ class Update:
         price = self.price_var.get()
         availability = self.availability_var.get()
 
+        import csv
+        from tkinter import messagebox
+
         if item_name and price and availability:
-            menu_data = []
             try:
-                with open(filename, mode='r', newline='') as file:
-                    reader = csv.DictReader(file)
-                    for row in reader:
-                        if row['item_name']==item_name:
-                            pass
-                        else:
-                            menu_data.append(row)
+                with open(filename, mode='a', newline='') as file:
+                    fieldnames = ['item_name', 'price', 'availability']
+                    writer = csv.DictWriter(file, fieldnames=fieldnames)
+                    # Check if the file is empty to write the header only if needed
+                    file_is_empty = file.tell() == 0
+                    if file_is_empty:
+                        writer.writeheader()
+                    writer.writerow({'item_name': item_name, 'price': price, 'availability': availability})
+
+                messagebox.showinfo("Success", "Item added successfully")
+                self.add_item_frame.destroy()
             except FileNotFoundError:
-                pass
+                with open(filename, mode='w', newline='') as file:
+                    fieldnames = ['item_name', 'price', 'availability']
+                    writer = csv.DictWriter(file, fieldnames=fieldnames)
+                    writer.writeheader()
+                    writer.writerow({'item_name': item_name, 'price': price, 'availability': availability})
 
-            menu_data.append({'item_name': item_name, 'price': price, 'availability': availability})
+                messagebox.showinfo("Success", "Item added successfully")
+                self.add_item_frame.destroy()
 
-            with open(filename, mode='w', newline='') as file:
-                fieldnames = ['item_name', 'price', 'availability']
-                writer = csv.DictWriter(file, fieldnames=fieldnames)
-                writer.writeheader()
-                writer.writerows(menu_data)
-            messagebox.showinfo("Success", "Item added successfully")
-            self.add_item_frame.destroy()
         else:
             messagebox.showwarning("Input Error", "All fields are required")
 
     def delete_item_screen(self):
         self.display_buttons()
-        self._label = Label(self.menu_frame, text='Choose an item to delete ',height=2,font=('Ailza Bright Demo',15),bg='#fce8e9')
+        self._label = Label(self.menu_frame, text='Choose an item to delete ',height=2,font=('Ailza Bright Demo',15),bg='#c1e8f7')
         self._label.place(x=350,y=270)
         self.delete = Button(self.menu_frame, text='Delete', command=self.delete_item, height=2, width=15, font=FONT2,
                              bg='blue', fg='white')
@@ -276,12 +280,13 @@ class Update:
         self.hide_all_tables()
         self.display_buttons()
 
-        self.Label = Label(self.menu_frame, text='Choose an item to update ',height=2,font=('Ailza Bright Demo',15),bg='#fce8e9')
+        self.Label = Label(self.menu_frame, text='Choose an item to update ',height=2,font=('Ailza Bright Demo',15),bg='#c1e8f7')
         self.Label.place(x=330,y=270)
         self.update_button = Button(self.menu_frame, text="Update", font=('Ailza Bright Demo', 11), width=10, height=2,
                                     command=self.update_item, fg='white', bg='blue')
         self.update_button.place(x=600, y=270)
         self.update_button.config(state='disabled')
+
 
         def check_selection():
             filename, table = self.get_selected_table()
@@ -294,19 +299,19 @@ class Update:
 
                 #Enable update button after a selection is made
                 self.update_button.config(state='normal')
-            else:
-                #Re-checking after 100 milliseconds
-                self.menu_frame.after(100, check_selection)
+
+            #Re-checking after 100 milliseconds
+            self.menu_frame.after(100, check_selection)
 
         check_selection()
 
     def update_item(self):
         filename, table = self.get_selected_table()
-        self.update_item_frame = Frame(self.window, height=350, width=850, background='#fce8e9')
+        self.update_item_frame = Frame(self.window, height=350, width=850, background='#c1e8f7')
         self.update_item_frame.place(x=50, y=250)
 
         try:
-            self.image = PhotoImage(file='img.png')
+            self.image = PhotoImage(file='wave.png')
             Label(self.update_item_frame, image=self.image, bg="white").place(x=0, y=0)
         except TclError:
             print("Error: Image file not found or unsupported format.")
@@ -319,16 +324,16 @@ class Update:
             self.update_item_frame.destroy()
             return
 
-        Label(self.update_item_frame, text="Update menu", font=('Ailza Bright Demo', 20, 'underline'), bg='#fce8e9', fg='blue').place(x=350, y=30)
-        Label(self.update_item_frame, text="Item name:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250,y=100)
-        entry = Entry(self.update_item_frame, textvariable=self.item_name_var, font=('Ailza Bright Demo', 14),bg='#fce8e9')
+        Label(self.update_item_frame, text="Update menu", font=('Ailza Bright Demo', 20, 'underline'), bg='#c1e8f7', fg='blue').place(x=350, y=30)
+        Label(self.update_item_frame, text="Item name:", font=('Ailza Bright Demo', 14), bg='#c1e8f7').place(x=250,y=100)
+        entry = Entry(self.update_item_frame, textvariable=self.item_name_var, font=('Ailza Bright Demo', 14),bg='#c1e8f7')
         entry.config(state='readonly')
         entry.place(x=480, y=100)
 
-        Label(self.update_item_frame, text="Enter the new price:", font=('Ailza Bright Demo', 14), bg='#fce8e9').place(x=250, y=150)
+        Label(self.update_item_frame, text="Enter the new price:", font=('Ailza Bright Demo', 14), bg='#c1e8f7').place(x=250, y=150)
         Entry(self.update_item_frame, textvariable=self.price_var, width=30, insertwidth=4).place(x=480, y=150)
 
-        Label(self.update_item_frame, text="Select the new availability:", font=('Ailza Bright Demo', 14),bg='#fce8e9').place(x=250, y=200)
+        Label(self.update_item_frame, text="Select the new availability:", font=('Ailza Bright Demo', 14),bg='#c1e8f7').place(x=250, y=200)
         self.availability_combobox = Combobox(self.update_item_frame, textvariable=self.availability_var,values=['True', 'False'], state='readonly', width=27)
         self.availability_combobox.place(x=480, y=200)
 
