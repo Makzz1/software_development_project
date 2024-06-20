@@ -9,20 +9,20 @@ FONT = ('arial', 24, 'italic')
 class Order_display:
     def __init__(self):
         self.root = tk.Tk()
-        self.root.geometry('1300x700')
+        self.root.geometry('952x636')
         self.root.configure(background='#92efd3')
         self.root.title('Hotel Pandian')
         self.title = tk.Label(self.root, text="ORDER", font=('arial', 32, 'bold'), background='#92efd3')
-        self.title.place(x=580, y=20)
+        self.title.place(x=390, y=20)
         # order frame
-        self.order_frame = tk.Frame(self.root, bg='#c2fae9', height=550, width=1200 )
-        self.order_frame.place(x=60, y=100)
+        self.order_frame = tk.Frame(self.root, bg='#c2fae9', height=450, width=800 )
+        self.order_frame.place(x=70, y=100)
         # exit button
         self.exit_button = tk.Button(self.root, text='exit', font=('arial', 10, 'italic'), command=self.exit,width=14, height=2)
-        self.exit_button.place(x=1150, y=655)
+        self.exit_button.place(x=600, y=580)
         # done button
         self.done_button = tk.Button(self.root, text ='done', font=('arial', 10, 'italic'),command=self.done_button_action , width=14, height=2 )
-        self.done_button.place(x=1000,y=655)
+        self.done_button.place(x=750,y=580)
 
         self.display_orders()
         self.root.mainloop()

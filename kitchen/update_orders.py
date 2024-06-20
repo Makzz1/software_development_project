@@ -15,7 +15,7 @@ class Update:
         self.window.configure(bg='#DCF6E9')
         self.window.resizable(False, False)
 
-        self.canvas = Canvas(self.window, width=952, height=120, background='#DCF6E9')
+        self.canvas = Canvas(self.window, width=952, height=120, background='#c1e8f7')
         self.canvas.pack()
         self.canvas.create_text(480, 40, anchor=N, text="HOTEL PANDIAN", fill='#250220', font=('georgia', 35, 'italic'))
 
@@ -57,10 +57,15 @@ class Update:
                                     command=self.dinner_screen)
         self.dinner_button.place(x=10, y=230)
 
+    def configure_treeview_style(self):
+        style = ttk.Style()
+        style.theme_use('default')
+        style.configure("Treeview.Heading",font=('Ailza Bright Demo', 15, 'bold'),foreground='blue')
+        style.configure("Treeview",font=('Ailza Bright Demo', 15),background='white',foreground='black',fieldbackground='white')
     def breakfast_screen(self):
         self.hide_all_tables()
         self.breakfast_table = ttk.Treeview(self.menu_frame, columns=("Item Name", "Price", "Availability"),
-                                             show='headings', style="Treeview")
+                                             show='headings', style=self.configure_treeview_style())
         self.breakfast_table.heading("Item Name", text="Item Name")
         self.breakfast_table.heading("Price", text="Price")
         self.breakfast_table.heading("Availability", text="Availability")
@@ -70,7 +75,7 @@ class Update:
     def lunch_screen(self):
         self.hide_all_tables()
         self.lunch_table = ttk.Treeview(self.menu_frame, columns=("Item Name", "Price", "Availability"),
-                                         show='headings', style="Treeview")
+                                         show='headings', style=self.configure_treeview_style())
         self.lunch_table.heading("Item Name", text="Item Name")
         self.lunch_table.heading("Price", text="Price")
         self.lunch_table.heading("Availability", text="Availability")
@@ -80,7 +85,7 @@ class Update:
     def dinner_screen(self):
         self.hide_all_tables()
         self.dinner_table = ttk.Treeview(self.menu_frame, columns=("Item Name", "Price", "Availability"),
-                                          show='headings', style="Treeview")
+                                          show='headings', style=self.configure_treeview_style())
         self.dinner_table.heading("Item Name", text="Item Name")
         self.dinner_table.heading("Price", text="Price")
         self.dinner_table.heading("Availability", text="Availability")
@@ -183,9 +188,6 @@ class Update:
             messagebox.showwarning("Selection Error", "Please choose a category")
             return
 
-        """if hasattr(self, 'add_item_frame') and self.add_item_frame.winfo_exists():
-            self.add_item_frame.destroy()"""
-
         filename = ''
         table = None
         if category == 'Breakfast':
@@ -231,9 +233,8 @@ class Update:
     def delete_item_screen(self):
         self.display_buttons()
         self._label = Label(self.menu_frame, text='Choose an item to delete ',height=2,font=('Ailza Bright Demo',15),bg='#c1e8f7')
-        self._label.place(x=350,y=270)
-        self.delete = Button(self.menu_frame, text='Delete', command=self.delete_item, height=2, width=15, font=FONT2,
-                             bg='blue', fg='white')
+        self._label.place(x=330,y=270)
+        self.delete = Button(self.menu_frame, text='Delete', command=self.delete_item, height=2, width=10, font=FONT2, bg='blue', fg='white')
         self.delete.place(x=600, y=270)
 
     def delete_item(self):
@@ -280,7 +281,7 @@ class Update:
         self.hide_all_tables()
         self.display_buttons()
 
-        self.Label = Label(self.menu_frame, text='Choose an item to update ',height=2,font=('Ailza Bright Demo',15),bg='#c1e8f7')
+        self.Label = Label(self.menu_frame, text='Choose an item to update',height=2,font=('Ailza Bright Demo',15),bg='#c1e8f7')
         self.Label.place(x=330,y=270)
         self.update_button = Button(self.menu_frame, text="Update", font=('Ailza Bright Demo', 11), width=10, height=2,
                                     command=self.update_item, fg='white', bg='blue')
@@ -289,6 +290,8 @@ class Update:
 
 
         def check_selection():
+            if not self.window.winfo_exists():
+                return
             filename, table = self.get_selected_table()
             if table and table.selection():
                 selected_item = table.selection()
