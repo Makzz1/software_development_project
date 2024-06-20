@@ -3,6 +3,7 @@ from tkinter import Entry, Frame, Label, Button, messagebox
 import admin_entry_page
 
 IMAGE_PATH = 'adminpagephoto.png'
+
 class Admin:
     def __init__(self):
         self.root = tk.Tk()
@@ -23,16 +24,17 @@ class Admin:
         heading.place(x=100, y=5)
         self.user_name()
         self.password()
+        self.show_password = False
         self.sign_up()
         self.root.mainloop()
 
     def user_name(self):
         def on_enter(e):
-            self.user.delete(0, "end")
+            if self.user.get() == "username":
+                self.user.delete(0, "end")
 
         def on_leave(e):
-            name = self.user.get()
-            if name == "":
+            if self.user.get() == "":
                 self.user.insert(0, "username")
 
         self.user = Entry(self.frame, width=25, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
@@ -45,12 +47,14 @@ class Admin:
 
     def password(self):
         def on_enter(e):
-            self.code.delete(0, "end")
+            if self.code.get() == "password":
+                self.code.delete(0, "end")
+                self.code.config(show="*" if not self.show_password else "")
 
         def on_leave(e):
-            name = self.code.get()
-            if name == "":
+            if self.code.get() == "":
                 self.code.insert(0, "password")
+                self.code.config(show="")
 
         self.code = Entry(self.frame, width=25, fg="black", border=0, bg="white", font=("Microsoft YaHei UI Light", 11))
         self.code.place(x=30, y=150)
@@ -60,27 +64,35 @@ class Admin:
 
         Frame(self.frame, width=295, height=2, bg='black').place(x=25, y=177)
 
+        self.toggle_button = Button(self.frame, text="Show", command=self.toggle_password, bg="white", cursor="hand2", fg="#57a1f8", border=0)
+        self.toggle_button.place(x=260, y=145)
+
+    def toggle_password(self):
+        self.show_password = not self.show_password
+        if self.show_password:
+            self.code.config(show="")
+            self.toggle_button.config(text="Hide")
+        else:
+            self.code.config(show="*" if self.code.get() != "password" else "")
+            self.toggle_button.config(text="Show")
+
     def signin(self):
         username = self.user.get()
         password = self.code.get()
-        if username == "admin" and password == "1234":
+        if username == "admin" and password == "123456":
             self.root.destroy()
             admin_entry_page.admin_entry_page()
-
-
-        elif username != "admin" and password != "1234":
-            messagebox.showinfo('error',"Invalid username and password")
-
-        elif password != "1234":
-            messagebox.showinfo('error',"Invalid password")
-
+        elif username != "admin" and password != "123456":
+            messagebox.showinfo('error', "Invalid username and password")
+        elif password != "123456":
+            messagebox.showinfo('error', "Invalid password")
         elif username != "admin":
-            messagebox.showinfo('error',"Invalid username")
+            messagebox.showinfo('error', "Invalid username")
 
     def sign_up(self):
         sign_up = Button(self.frame, width=10, text="sign up", border=0, bg="white", cursor="hand2", fg="#57a1f8",
                          command=self.signin)
         sign_up.place(x=150, y=210)
 
-
-l = Admin()
+if __name__ == '__main__':
+    l = Admin()
