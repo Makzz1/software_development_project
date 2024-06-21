@@ -1,5 +1,6 @@
 import tkinter as tk
 import csv
+import json
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -24,6 +25,8 @@ class Order_display:
         self.done_button = tk.Button(self.root, text ='done', font=('arial', 10, 'italic'),command=self.done_button_action , width=14, height=2 )
         self.done_button.place(x=750,y=580)
 
+
+
         self.display_orders()
         self.root.mainloop()
 
@@ -31,35 +34,32 @@ class Order_display:
     def display_orders(self):
         self.y_pos = 0
         print('check case')
-        self.writing_in_frame('../customer_side/order.csv')
-        self.root.after(5000, self.display_orders)  # Display orders every 5 seconds
+        self.writing_in_frame('../customer_side/order.json')
+        self.root.after(100, self.display_orders)  # Display orders every 5 seconds
 
     def writing_in_frame(self, filename):
         for widget in self.order_frame.winfo_children():
             widget.destroy()  # Clear previous orders
-        with open(filename, 'r') as csvfile:
-            reader = csv.reader(csvfile)
-            data_on_queue = {'order':{}}
-            for row in reader:
-                order = ''
-                for i in row:
-                    order += i + " "
-                order_label = tk.Label(self.order_frame, text=str(f'Order : {order}'), font=('arial', 24, 'italic'), borderwidth=2, bg='#dbfcf2')
-                order_label.place(x=10, y=self.y_pos)
-                self.y_pos += 50
+        try:
+            with open(filename, 'r') as file:
+                content = json.load(file)
+                for token in content:
+                    order_label = tk.Label(self.order_frame, text=str(f'Order : {content[token]['order']} and token : {token}'), font=('arial', 24, 'italic'), borderwidth=2, bg='#dbfcf2')
+                    order_label.place(x=10, y=self.y_pos)
+                    self.y_pos += 50
+        except:
+            print('no  item')
 
     def done_button_action(self):
         for widget in self.order_frame.winfo_children():
             widget.destroy()
-        f = open('../customer_side/order.csv', 'r' , newline='')
-        order_data = f.readlines()
-        order_data.pop(0)
-        f.close()
-        f = open('../customer_side/order.csv', 'w' , newline='')
-        print(order_data)
-        for i in order_data:
-            f.write((i))
-        f.close()
+        with open('../customer_side/order.json', 'r') as f:
+            content = json.load(f)
+            index = list(content)
+            del content[index[0]]
+
+        with open('../customer_side/order.json','w') as f:
+            json.dump(content,f)
 
         f = open('../customer_side/email.csv','r',newline='')
         reader = csv.reader(f)

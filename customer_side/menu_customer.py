@@ -1,7 +1,8 @@
 from tkinter import *
-import our_queue
+import json
+from tkinter import messagebox
+import customer_side.our_queue
 from datetime import datetime
-import payment_page
 import csv
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -9,10 +10,9 @@ from email.mime.text import MIMEText
 
 FONT = ('times new roman', 24, 'italic')
 
-
 class Menu:
-    def __init__(self,list,name,phone,email,token):
-        self.list = list
+    def __init__(self,name,phone,email,token):
+        self.flag = True
         self.ordered_items = {}
         self.name = name
         self.phone = phone
@@ -30,8 +30,8 @@ class Menu:
         self.hr = self.curent.hour
         self.min = self.curent.minute
 
+    def menu_page(self):
         self.totalprice = 0
-        self.queue_list = our_queue.Queue()
         self.window = Tk()
         self.window.title("Pandian Restaurant")
         self.window.minsize(width=300, height=300)
@@ -92,7 +92,6 @@ class Menu:
                 self.breakfast_data[item_name] = float(price)
                 if availability:
                     self.b_listbox.insert(0, f'{item_name} - {price}', )
-            print(self.breakfast_data)
 
         else:
             self.breakfast_frame.destroy()
@@ -152,7 +151,7 @@ class Menu:
             self.order_frame_listbox.insert(END, f'{item}             {quantity}             {price * quantity}')
             self.ordered_items[item] = f'{item}-{quantity} : {price*quantity}'
             self.totalprice += price * quantity
-            print(self.ordered_items)
+
 
     def remove_order(self):
         selected = self.order_frame_listbox.curselection()
@@ -199,43 +198,61 @@ class Menu:
             self.order_frame_listbox.delete(1)
             data = data.split('             ')
             self.data_to_write['order'][data[0]] = int(data[1])
-        self.token += 1
-        print(self.data_to_write)
-        self.list.append(self.data_to_write)
-        self.window.destroy()
-        self.update_csv("order.csv")
+        self.update("order.json")
 
-    def update_csv(self,filename):
-        for i in self.list:
-            self.queue_list.add(i)
-        temp = self.queue_list.head
-        with open(f"./{filename}",'w',newline='') as csvfile:
-            while temp:
-                data = temp.value
-                temp = temp.next
-                csvfile.write(f'{list(data['order'].items())} token:{data['token']}\n')
-        csvfile.close()
-
-        temp = self.queue_list.head
-        with open("email.csv",'w',newline='') as csvfile1:
-            writer = csv.writer(csvfile1)
-            while temp:
-                data = temp.value
-                temp = temp.next
-                print(data)
-                writer.writerow([data['email'], data['name']])
-        csvfile1.close()
-
-        print(self.email)
+    def update(self,filename):
+        self.dict = {}
+        self.queue_list = customer_side.our_queue.Queue()
 
         self.send_email(self.email)
-        self.totalprice = 0
+        if self.flag:
+            try:
+                with open(filename,'r') as file1:
+                    content = json.load(file1)
+                if content:
+                    for i in content:
+                        print('json:',content[i])
+                        self.dict[int(i)] = (content[i])
+            except:
+                print('file is empty')
 
+
+            self.dict[self.token] = self.data_to_write
+            print(self.dict)
+            for i in range(1,self.token+1):
+                try:
+                    self.queue_list.add(self.dict[i])
+                except:
+                    pass
+            temp = self.queue_list.head
+            data_items={}
+            while temp:
+                data = temp.value
+                temp = temp.next
+                data_items[data["token"]] = data
+
+            print(data_items)
+
+            with open("order.json","w") as file2:
+                json.dump(data_items,file2)
+
+            temp = self.queue_list.head
+            with open("email.csv",'w',newline='') as csvfile1:
+                writer = csv.writer(csvfile1)
+                while temp:
+                    data = temp.value
+                    temp = temp.next
+                    writer.writerow([data['email'], data['name']])
+
+            self.token += 1
+
+        self.window.destroy()
+        self.totalprice = 0
         import customer_page
-        customer_page = customer_page.Customer(self.list,self.token)
+        customer_page = customer_page.Customer(self.token)
+        customer_page.customer_login()
 
     def send_email(self,recipient_email):
-        print(recipient_email)
         sender_email = 'hotelpandianmail@gmail.com'
         sender_password = "zibfzkbecvxdqmsl"  # Use an app-specific password if you have 2FA enabled
         subject = "This mail is to inform you that your ordering at Hotel Pandian is confirmed."
@@ -267,8 +284,11 @@ Thank you, Do visit us again
             # Close the connection
         except Exception as e:
             print(f'Failed to send email. Error: {e}')
+            self.flag = False
+            messagebox.showerror(message='Please provide a correct mail id,Thank you')
+
 
 
 if __name__ == '__main__':
-     list = []
-     m = Menu(list,'maghizh','1','maghizhvanban@gmail.com',1)
+    m = Menu()
+    m.menu_page()

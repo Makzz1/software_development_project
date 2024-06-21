@@ -9,7 +9,7 @@ FONT2 = ('Ailza Bright Demo', 13)
 class Update:
     def __init__(self):
         self.window = Tk()
-        self.window.title("Pandian Restaurant")
+        self.window.title("Hotel Pandian")
         self.window.minsize(width=300, height=300)
         self.window.geometry("952x636")
         self.window.configure(bg='#DCF6E9')
@@ -38,11 +38,11 @@ class Update:
         if hasattr(self, 'menu_frame') and self.menu_frame.winfo_exists():
             self.menu_frame.destroy()
 
-        self.menu_frame = Frame(self.window, height=350, width=850, background='#fce8e9')
+        self.menu_frame = Frame(self.window, height=350, width=850, background='#c1e8f7')
         self.menu_frame.place(x=50, y=250)
 
         try:
-            self.image = PhotoImage(file='wave.png')
+            self.image = PhotoImage(file='wave3.png')
             Label(self.menu_frame, image=self.image, bg="white").place(x=0, y=0)
         except TclError:
             print("Error: Image file not found or unsupported format.")
@@ -155,7 +155,7 @@ class Update:
         self.add_item_frame.place(x=50, y=250)
 
         try:
-            self.image = PhotoImage(file='wave.png')
+            self.image = PhotoImage(file='wave3.png')
             Label(self.add_item_frame, image=self.image, bg="white").place(x=0, y=0)
         except TclError:
             print("Error: Image file not found or unsupported format.")
@@ -286,12 +286,12 @@ class Update:
         self.update_button = Button(self.menu_frame, text="Update", font=('Ailza Bright Demo', 11), width=10, height=2,
                                     command=self.update_item, fg='white', bg='blue')
         self.update_button.place(x=600, y=270)
-        self.update_button.config(state='disabled')
 
 
         def check_selection():
             if not self.window.winfo_exists():
                 return
+            self.update_button.config(state='disabled')
             filename, table = self.get_selected_table()
             if table and table.selection():
                 selected_item = table.selection()
@@ -304,7 +304,9 @@ class Update:
                 self.update_button.config(state='normal')
 
             #Re-checking after 100 milliseconds
-            self.menu_frame.after(100, check_selection)
+            if self.menu_frame.winfo_exists():
+                self.menu_frame.after(100, check_selection)
+
 
         check_selection()
 
@@ -314,7 +316,7 @@ class Update:
         self.update_item_frame.place(x=50, y=250)
 
         try:
-            self.image = PhotoImage(file='wave.png')
+            self.image = PhotoImage(file='wave2.png')
             Label(self.update_item_frame, image=self.image, bg="white").place(x=0, y=0)
         except TclError:
             print("Error: Image file not found or unsupported format.")

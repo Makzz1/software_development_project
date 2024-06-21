@@ -1,13 +1,14 @@
 
 from tkinter import *
 from tkinter import messagebox
-import menu_customer
+import customer_side.menu_customer
 
 
 class Customer:
-    def __init__(self,list,token):
-        self.list = list
+    def __init__(self,token):
         self.token = token
+
+    def customer_login(self):
         self.root = Tk()
         self.root.title("login")
         self.root.geometry("952x636+50+50")
@@ -93,7 +94,8 @@ class Customer:
         if name and phone_no and email and name != "Name" and phone_no != "contact_no" and email != "E-mail":
             print('mail:',email)
             self.root.destroy()
-            menu = menu_customer.Menu(self.list,name,phone_no,email,self.token)
+            self.menu = customer_side.menu_customer.Menu(name,phone_no,email,self.token)
+            self.menu.menu_page()
         else:
             messagebox.showerror(message='please fill all the above boxes')
 

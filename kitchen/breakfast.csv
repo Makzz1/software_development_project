@@ -1,10 +1,10 @@
 item_name,price,availability
-Dosa,999.0,True
+Dosa,30.0,True
 Vada,20.0,False
 Upma,35.0,True
 Pongal,40.0,True
 Paratha,90.0,True
 Poori,30.0,False
-Chapati,20.0,True
+Chapati,15.0,True
 Sandwich,50.0,True
 Poha,25.0,False
