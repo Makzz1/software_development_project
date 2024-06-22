@@ -2,6 +2,10 @@
 from tkinter import *
 from tkinter import messagebox
 import customer_side.menu_customer
+import re
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 
 class Customer:
@@ -91,12 +95,18 @@ class Customer:
         name = self.Name.get()
         phone_no = self.contact_no.get()
         email = self.address.get()
+        email_regex = r'^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$'
+
         if name and phone_no and email and name != "Name" and phone_no != "contact_no" and email != "E-mail":
-            print('mail:',email)
-            self.root.destroy()
-            self.menu = customer_side.menu_customer.Menu(name,phone_no,email,self.token)
-            self.menu.menu_page()
+            if re.match(email_regex, email):
+                print('mail:', email)
+                self.root.destroy()
+                self.menu = customer_side.menu_customer.Menu(name, phone_no, email, self.token)
+                self.menu.menu_page()
+            else:
+                messagebox.showerror(message='Invalid email address')
         else:
-            messagebox.showerror(message='please fill all the above boxes')
+            messagebox.showerror(message='Please fill all the above boxes')
+
 
 
